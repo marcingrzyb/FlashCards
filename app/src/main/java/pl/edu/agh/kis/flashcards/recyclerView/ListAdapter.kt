@@ -1,0 +1,31 @@
+package pl.edu.agh.kis.flashcards.recyclerView
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import pl.edu.agh.kis.flashcards.R
+import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
+
+class ListAdapter internal constructor(context:Context): RecyclerView.Adapter<NoteListHolder>() {
+
+    private val inflater:LayoutInflater= LayoutInflater.from(context)
+    private var noteListEntity = emptyList<NoteListEntity>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListHolder {
+        val itemView = inflater.inflate(R.layout.list_item,parent,false)
+        return NoteListHolder(inflater, parent)
+    }
+
+    override fun onBindViewHolder(holder: NoteListHolder, position: Int) {
+            val current: NoteListEntity = noteListEntity[position]
+            holder.bind(current)
+    }
+
+    override fun getItemCount(): Int = noteListEntity.size
+
+    fun setList(list_:List<NoteListEntity>){
+        this.noteListEntity=list_
+        notifyDataSetChanged()
+    }
+}
