@@ -1,13 +1,11 @@
 package pl.edu.agh.kis.flashcards.fragments
 
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ScrollView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import pl.edu.agh.kis.flashcards.R
 
 class NotesSetFragment : Fragment() {
 
@@ -23,18 +21,7 @@ class NotesSetFragment : Fragment() {
         if (container == null) {
             return null
         }
-        val text = TextView(activity).apply {
-            val padding: Int = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                4f,
-                activity?.resources?.displayMetrics
-            ).toInt()
-            setPadding(padding, padding, padding, padding)
-            text = shownIndex.toString()
-        }
-        return ScrollView(activity).apply {
-            addView(text)
-        }
+        return inflater.inflate(R.layout.fragment_notes_list, container, false)
     }
 
     companion object {

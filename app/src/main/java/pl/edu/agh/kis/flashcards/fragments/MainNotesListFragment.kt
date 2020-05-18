@@ -46,13 +46,11 @@ class MainNotesListFragment : Fragment(), ListAdapter.OnNoteSetListener {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main_notes_list, container, false)
@@ -65,10 +63,8 @@ class MainNotesListFragment : Fragment(), ListAdapter.OnNoteSetListener {
 
         curCheckPosition = savedInstanceState?.getInt("curChoice", 0) ?: 0
 
-        Log.d("A", dualPane.toString())
         if (dualPane) {
-            // In dual-pane mode, the list view highlights the selected item.
-            // Make sure our UI is in the correct state.
+            showDetails(curCheckPosition)
         }
         val recyclerView = MainNotesRecyclerView
         val adapter = ListAdapter(activity!!.applicationContext, this)

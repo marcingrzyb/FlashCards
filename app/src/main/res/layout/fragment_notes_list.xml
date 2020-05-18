@@ -10,7 +10,7 @@
     <Button
         android:id="@+id/AddNewNotesList"
         android:layout_width="match_parent"
-        android:layout_height="400px"
+        android:layout_height="wrap_content"
         android:text="@string/NewListButton"
         app:cornerRadius="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
