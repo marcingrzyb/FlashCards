@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import pl.edu.agh.kis.flashcards.database.NoteListDataBase
 import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
@@ -28,7 +28,7 @@ public class NoteListViewModel(application: Application) : AndroidViewModel(appl
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun insert(noteListEntity: NoteListEntity) = viewModelScope.launch(Dispatchers.IO) {
+    fun insert(noteListEntity: NoteListEntity) = viewModelScope.launch(IO) {
         repository.addNewNoteList(noteListEntity)
     }
 }

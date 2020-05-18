@@ -1,8 +1,6 @@
 package pl.edu.agh.kis.flashcards.database.services
 
-import android.content.Context
 import androidx.lifecycle.LiveData
-import pl.edu.agh.kis.flashcards.database.NoteListDataBase
 import pl.edu.agh.kis.flashcards.database.daos.NoteListDAO
 import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
 

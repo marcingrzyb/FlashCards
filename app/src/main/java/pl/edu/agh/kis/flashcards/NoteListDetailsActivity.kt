@@ -1,7 +1,6 @@
 package pl.edu.agh.kis.flashcards
 
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import pl.edu.agh.kis.flashcards.fragments.NotesSetFragment

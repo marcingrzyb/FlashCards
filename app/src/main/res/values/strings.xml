@@ -9,8 +9,12 @@
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="listname">Enter List Name</string>
+    <string name="front">Front side</string>
+    <string name="back">Back side</string>
     <string name="extended_fab_content_desc">a</string>
     <string name="extended_fab_label">b</string>
+    <string name="no_data_available">Note list empty. Add note to fill</string>
+    <string name="button">Add</string>
     <string-array name="languages">
         <item>Eng</item>
         <item>Pol</item>
