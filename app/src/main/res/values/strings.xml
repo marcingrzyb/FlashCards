@@ -9,6 +9,8 @@
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="listname">Enter List Name</string>
+    <string name="extended_fab_content_desc">a</string>
+    <string name="extended_fab_label">b</string>
     <string-array name="languages">
         <item>Eng</item>
         <item>Pol</item>
