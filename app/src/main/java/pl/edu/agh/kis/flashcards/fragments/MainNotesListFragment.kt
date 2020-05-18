@@ -1,40 +1,44 @@
-package pl.edu.agh.kis.flashcards
+package pl.edu.agh.kis.flashcards.fragments
 
 import android.app.AlertDialog
 import android.app.Application
-import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.add_new_list_dialog.*
-import kotlinx.android.synthetic.main.add_new_list_dialog.view.*
-import kotlinx.android.synthetic.main.add_new_list_dialog.view.cancel_button
 import kotlinx.android.synthetic.main.fragment_main_notes_list.*
+import pl.edu.agh.kis.flashcards.NoteListDetailsActivity
+import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
 import pl.edu.agh.kis.flashcards.recyclerView.ListAdapter
+import pl.edu.agh.kis.flashcards.recyclerView.NoteListHolder
 import pl.edu.agh.kis.flashcards.viewmodels.NoteListViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 private lateinit var noteListViewModel: NoteListViewModel
 
 
-class MainNotesListFragment : Fragment() {
-    // ????
+class MainNotesListFragment : Fragment(), ListAdapter.OnNoteSetListener {
+
     private var param1: String? = null
     private var param2: String? = null
+
+    private var dualPane: Boolean = false
+    private var curCheckPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,18 +60,37 @@ class MainNotesListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val recyclerView=MainNotesRecyclerView
-        val adapter=ListAdapter(activity!!.applicationContext)
-        recyclerView.adapter=adapter
-        recyclerView.layoutManager=LinearLayoutManager(activity!!.applicationContext)
-        viewModelFactory.setApplication(this.activity!!.application)
-        noteListViewModel = ViewModelProvider(this,viewModelFactory).get(NoteListViewModel::class.java)
+        val detailsFrame: View? = activity?.findViewById(R.id.note_list)
+        dualPane = detailsFrame?.visibility == View.VISIBLE
+
+        curCheckPosition = savedInstanceState?.getInt("curChoice", 0) ?: 0
+
+        Log.d("A", dualPane.toString())
+        if (dualPane) {
+            // In dual-pane mode, the list view highlights the selected item.
+            // Make sure our UI is in the correct state.
+        }
+        val recyclerView = MainNotesRecyclerView
+        val adapter = ListAdapter(activity!!.applicationContext, this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
+        ViewModelFactory.setApplication(this.activity!!.application)
+        noteListViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory
+        ).get(NoteListViewModel::class.java)
         noteListViewModel.allNoteLists.observe(this, Observer { noteLists ->
             // Update the cached copy of the words in the adapter.
             noteLists?.let { adapter.setList(it) }
         })
-        AddNewNotesList.setOnClickListener{ view?.let { it1 -> basicAlert(it1) } }
+        AddNewNotesList.setOnClickListener { view?.let { it1 -> basicAlert(it1) } }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("curChoice", curCheckPosition)
+    }
+
 
     companion object {
         /**
@@ -89,16 +112,17 @@ class MainNotesListFragment : Fragment() {
             }
     }
 
-    fun basicAlert(view: View){
-        val mDialogView = LayoutInflater.from(activity!!).inflate(R.layout.add_new_list_dialog, null)
+    fun basicAlert(view: View) {
+        val mDialogView =
+            LayoutInflater.from(activity!!).inflate(R.layout.add_new_list_dialog, null)
         val builder = AlertDialog.Builder(activity!!)
 
-        with(builder){
+        with(builder) {
             setView(mDialogView)
             setTitle("Create new FlashNotes list!")
         }
 
-        var dialog=builder.create()
+        val dialog = builder.create()
         dialog.show()
 
         ArrayAdapter.createFromResource(
@@ -115,7 +139,13 @@ class MainNotesListFragment : Fragment() {
             cancel_button.setOnClickListener { dialog.dismiss() }
             confirm_button.isEnabled = false
             confirm_button.setOnClickListener {
-                noteListViewModel.insert(NoteListEntity(null, editText1.text.toString(),langSpinner.selectedItem.toString()))
+                noteListViewModel.insert(
+                    NoteListEntity(
+                        null,
+                        editText1.text.toString(),
+                        langSpinner.selectedItem.toString()
+                    )
+                )
                 dismiss()
             }
             editText1.addTextChangedListener(object : TextWatcher {
@@ -132,19 +162,48 @@ class MainNotesListFragment : Fragment() {
                     s: CharSequence, start: Int,
                     before: Int, count: Int
                 ) {
-                    dialog.confirm_button.isEnabled = s.trim().length != 0
+                    dialog.confirm_button.isEnabled = s.trim().isNotEmpty()
                 }
             })
+        }
+    }
+
+    override fun onClick(noteListHolder: NoteListHolder, position: Int) {
+        curCheckPosition = position
+        showDetails(position)
+    }
+
+    private fun showDetails(index: Int) {
+        curCheckPosition = index
+        if (dualPane) {
+            var details = fragmentManager?.findFragmentById(R.id.note_list) as? NotesSetFragment
+            if (details?.shownIndex != index) {
+                details = NotesSetFragment.newInstance(index)
+                fragmentManager?.beginTransaction()?.apply {
+                    replace(R.id.note_list, details)
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    commit()
+                }
+            }
+        } else {
+            val intent = Intent().apply {
+                setClass(context!!, NoteListDetailsActivity::class.java)
+                putExtra("index", index)
+            }
+            startActivity(intent)
         }
     }
 }
 
 
-object viewModelFactory : ViewModelProvider.Factory {
-    lateinit var app : Application
+object ViewModelFactory : ViewModelProvider.Factory {
+    lateinit var app: Application
 
     fun setApplication(application: Application) {
         app = application
     }
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return NoteListViewModel(app) as T }}
+        return NoteListViewModel(app) as T
+    }
+}
