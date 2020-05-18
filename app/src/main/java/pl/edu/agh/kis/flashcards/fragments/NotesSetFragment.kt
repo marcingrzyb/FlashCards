@@ -52,6 +52,9 @@ class NotesSetFragment : Fragment() {
 
         with(dialog) {
             add_button.isEnabled = false
+            cancelButton.setOnClickListener{
+                dismiss()
+            }
             add_button.setOnClickListener {
                 //todo add insert impl to room
                 dismiss()
