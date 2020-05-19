@@ -1,6 +1,8 @@
 package pl.edu.agh.kis.flashcards.fragments
 
 import android.app.AlertDialog
+import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,11 +10,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.add_note.*
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.add_note_dialog.*
 import kotlinx.android.synthetic.main.fragment_notes_list.*
 import pl.edu.agh.kis.flashcards.R
+import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
+import pl.edu.agh.kis.flashcards.recyclerView.NoteAdapter
+import pl.edu.agh.kis.flashcards.recyclerView.NoteHolder
+import pl.edu.agh.kis.flashcards.viewmodels.NoteViewModel
+import kotlin.properties.Delegates
 
-class NotesSetFragment : Fragment() {
+private lateinit var noteViewModel: NoteViewModel
+
+class NotesSetFragment : Fragment(),NoteAdapter.OnNoteSetListener {
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+    }
 
     val shownIndex: Int by lazy {
         arguments?.getInt("index", 0) ?: 0
@@ -34,14 +52,28 @@ class NotesSetFragment : Fragment() {
         if (activity!!.findViewById<View>(R.id.note_list) != null
             || activity!!.findViewById<View>(R.id.note_lists_list) == null)
             //prevent error on rotating back
-            addNewNote.setOnClickListener { view?.let { it1 -> addNote(it1) } }
+            addNewNote.setOnClickListener { view?.let { it1 -> addNote(it1) }}
+        val recyclerView = notesSetRecyclerView
+        val adapter = NoteAdapter(activity!!.applicationContext, this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
+
+        NoteViewModelFactory.setApplication(this.activity!!.application)
+        NoteViewModelFactory.setIdF(shownIndex)
+        noteViewModel = ViewModelProvider(
+            this,
+            NoteViewModelFactory
+        ).get(noteViewModel::class.java)
+        noteViewModel.notes.observe(this, Observer { noteLists ->
+            // Update the cached copy of the words in the adapter.
+            noteLists?.let { adapter.setList(it) }
+        })
     }
 
     fun addNote(view: View) {
         val mDialogView =
-            LayoutInflater.from(activity!!).inflate(R.layout.add_note, null)
+            LayoutInflater.from(activity!!).inflate(R.layout.add_note_dialog, null)
         val builder = AlertDialog.Builder(activity!!)
-
         with(builder) {
             setView(mDialogView)
             setTitle("Add note")
@@ -56,12 +88,13 @@ class NotesSetFragment : Fragment() {
                 dismiss()
             }
             add_button.setOnClickListener {
+                noteViewModel.insert(NoteEntity(null,shownIndex,word.text.toString(),translatedWord.text.toString()))
                 //todo add insert impl to room
                 dismiss()
             }
             var firstNotEmpty = false
             var secondNotEmpty = false
-            editText2.addTextChangedListener(object : TextWatcher {
+            word.addTextChangedListener(object : TextWatcher {
 
                 override fun afterTextChanged(s: Editable) {}
 
@@ -79,7 +112,7 @@ class NotesSetFragment : Fragment() {
                     dialog.add_button.isEnabled = firstNotEmpty && secondNotEmpty
                 }
             })
-            editText3.addTextChangedListener(object : TextWatcher {
+            translatedWord.addTextChangedListener(object : TextWatcher {
 
                 override fun afterTextChanged(s: Editable) {}
 
@@ -117,5 +150,24 @@ class NotesSetFragment : Fragment() {
         }
     }
 
+    override fun onClick(noteHolder: NoteHolder, position: Int) {
+        TODO("Not yet implemented")
+    }
 
+
+}
+object NoteViewModelFactory : ViewModelProvider.Factory {
+    lateinit var app: Application
+    var id by Delegates.notNull<Int>()
+    fun setApplication(application: Application) {
+        app = application
+    }
+
+    fun setIdF(id_: Int) {
+        id = id_
+    }
+
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return NoteViewModel(app,id) as T
+    }
 }

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,8 @@ import kotlinx.android.synthetic.main.fragment_main_notes_list.*
 import pl.edu.agh.kis.flashcards.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
-import pl.edu.agh.kis.flashcards.recyclerView.ListAdapter
+import pl.edu.agh.kis.flashcards.recyclerView.NoteHolder
+import pl.edu.agh.kis.flashcards.recyclerView.NoteListAdapterRecycler
 import pl.edu.agh.kis.flashcards.recyclerView.NoteListHolder
 import pl.edu.agh.kis.flashcards.viewmodels.NoteListViewModel
 
@@ -32,7 +32,7 @@ private const val ARG_PARAM2 = "param2"
 private lateinit var noteListViewModel: NoteListViewModel
 
 
-class MainNotesListFragment : Fragment(), ListAdapter.OnNoteSetListener {
+class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListener {
 
     private var param1: String? = null
     private var param2: String? = null
@@ -67,7 +67,7 @@ class MainNotesListFragment : Fragment(), ListAdapter.OnNoteSetListener {
             showDetails(curCheckPosition)
         }
         val recyclerView = MainNotesRecyclerView
-        val adapter = ListAdapter(activity!!.applicationContext, this)
+        val adapter = NoteListAdapterRecycler(activity!!.applicationContext, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
         ViewModelFactory.setApplication(this.activity!!.application)
@@ -184,7 +184,7 @@ class MainNotesListFragment : Fragment(), ListAdapter.OnNoteSetListener {
         } else {
             val intent = Intent().apply {
                 setClass(context!!, NoteListDetailsActivity::class.java)
-                putExtra("index", index)
+                putExtra("index", noteListViewModel.allNoteLists.value?.get(index)!!.id)
             }
             startActivity(intent)
         }

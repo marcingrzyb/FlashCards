@@ -8,7 +8,7 @@ import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
 
 class NoteListHolder(
     view: View,
-    private val onNoteSetListener: ListAdapter.OnNoteSetListener
+    private val onNoteSetListener: NoteListAdapterRecycler.OnNoteSetListener
 ) :
     RecyclerView.ViewHolder(view), View.OnClickListener {
 
@@ -27,7 +27,7 @@ class NoteListHolder(
     }
 
     override fun onClick(itemView: View?) {
-       onNoteSetListener.onClick(this, adapterPosition)
+        onNoteSetListener.onClick(this, adapterPosition)
     }
 
 

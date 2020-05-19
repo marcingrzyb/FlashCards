@@ -8,31 +8,33 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import pl.edu.agh.kis.flashcards.database.NoteListDataBase
 import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
-import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
-import pl.edu.agh.kis.flashcards.database.services.NoteListRepository
+import pl.edu.agh.kis.flashcards.database.services.NoteRepository
 
-public class NoteListViewModel(application: Application) : AndroidViewModel(application) {
+public class NoteViewModel(application: Application, id: Int) : AndroidViewModel(application) {
 
-    private val repository: NoteListRepository
+    private val repository: NoteRepository
     // Using LiveData and caching what getAlphabetizedWords returns has several benefits:
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
-    val allNoteLists: LiveData<List<NoteListEntity>>
+    val notes: LiveData<List<NoteEntity>>
 
     init {
-        val notelistDao = NoteListDataBase.getDatabase(application,viewModelScope).noteListDAO()
-        repository = NoteListRepository(notelistDao)
-        allNoteLists = repository.allNoteLists
+        val noteDao = NoteListDataBase.getDatabase(application,viewModelScope).noteDao()
+        repository = NoteRepository(noteDao)
+        notes = repository.getAllById(id)
     }
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun insert(noteListEntity: NoteListEntity) = viewModelScope.launch(IO) {
-        repository.addNewNoteList(noteListEntity)
+    fun insert(noteEntity: NoteEntity) = viewModelScope.launch(IO) {
+        repository.addNote(noteEntity)
     }
-    fun update(noteListEntity: NoteListEntity,noteEntities: List<NoteEntity>)=viewModelScope.launch(IO) {
-        repository.updateNoteList(noteListEntity,noteEntities)
+    fun deleteAllById(id: Int)=viewModelScope.launch(IO){
+        repository.deleteAllById(id)
+    }
+    fun delete(noteEntity: NoteEntity)=viewModelScope.launch(IO){
+        repository.delete(noteEntity)
     }
 }

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
 
-class ListAdapter internal constructor(
+class NoteListAdapterRecycler internal constructor(
     context: Context, private val onNoteSetListener: OnNoteSetListener
 ) : RecyclerView.Adapter<NoteListHolder>() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)

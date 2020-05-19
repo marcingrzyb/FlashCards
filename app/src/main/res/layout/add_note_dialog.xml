@@ -9,7 +9,7 @@
     android:padding="8dp">
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/word"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -21,17 +21,14 @@
     </EditText>
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/translatedWord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/back"
         android:inputType="text"
-        android:autofillHints="">
-
-        <requestFocus />
-    </EditText>
+        android:autofillHints=""/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
