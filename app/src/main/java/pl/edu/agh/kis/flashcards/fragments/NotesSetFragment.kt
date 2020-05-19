@@ -63,7 +63,8 @@ class NotesSetFragment : Fragment(),NoteAdapter.OnNoteSetListener {
         noteViewModel = ViewModelProvider(
             this,
             NoteViewModelFactory
-        ).get(noteViewModel::class.java)
+        )
+            .get(NoteViewModel::class.java)
         noteViewModel.notes.observe(this, Observer { noteLists ->
             // Update the cached copy of the words in the adapter.
             noteLists?.let { adapter.setList(it) }
