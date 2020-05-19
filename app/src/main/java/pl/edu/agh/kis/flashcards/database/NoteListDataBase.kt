@@ -12,7 +12,7 @@ import pl.edu.agh.kis.flashcards.database.daos.NoteListDAO
 import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
 import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
 
-@Database(entities = arrayOf(NoteListEntity::class,NoteEntity::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(NoteListEntity::class,NoteEntity::class), version = 2, exportSchema = false)
 abstract class NoteListDataBase : RoomDatabase() {
     abstract fun noteListDAO(): NoteListDAO
     abstract fun noteDao():NoteDAO
