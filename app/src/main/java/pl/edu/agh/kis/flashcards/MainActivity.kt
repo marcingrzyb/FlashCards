@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import pl.edu.agh.kis.flashcards.activity.TranslationActivity
-import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(){
 

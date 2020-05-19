@@ -13,8 +13,10 @@
     <string name="back">Back side</string>
     <string name="extended_fab_content_desc">a</string>
     <string name="extended_fab_label">b</string>
+    <string name="hintTranslate">Type here to translate</string>
     <string name="no_data_available">Note list empty. Add note to fill</string>
     <string name="button">Add</string>
+    <string name="translate">Translate</string>
     <string-array name="languages">
         <item>Eng</item>
         <item>Pol</item>
