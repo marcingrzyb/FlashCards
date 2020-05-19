@@ -60,7 +60,6 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
         super.onActivityCreated(savedInstanceState)
         val detailsFrame: View? = activity?.findViewById(R.id.note_list)
         dualPane = detailsFrame?.visibility == View.VISIBLE
-
         curCheckPosition = savedInstanceState?.getInt("curChoice", 0) ?: 0
 
         if (dualPane) {
@@ -174,7 +173,8 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
         if (dualPane) {
             var details = fragmentManager?.findFragmentById(R.id.note_list) as? NotesSetFragment
             if (details?.shownIndex != index) {
-                details = NotesSetFragment.newInstance(index)
+                details =
+                    NotesSetFragment.newInstance(noteListViewModel.allNoteLists.value?.get(index)!!.id!!)
                 fragmentManager?.beginTransaction()?.apply {
                     replace(R.id.note_list, details)
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

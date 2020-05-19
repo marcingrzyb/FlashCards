@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.add_note_dialog.*
 import kotlinx.android.synthetic.main.fragment_notes_list.*
@@ -25,7 +27,7 @@ import kotlin.properties.Delegates
 
 private lateinit var noteViewModel: NoteViewModel
 
-class NotesSetFragment : Fragment(),NoteAdapter.OnNoteSetListener {
+class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,25 +52,26 @@ class NotesSetFragment : Fragment(),NoteAdapter.OnNoteSetListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity!!.findViewById<View>(R.id.note_list) != null
-            || activity!!.findViewById<View>(R.id.note_lists_list) == null)
+            || activity!!.findViewById<View>(R.id.note_lists_list) == null
+        ) {
             //prevent error on rotating back
-            addNewNote.setOnClickListener { view?.let { it1 -> addNote(it1) }}
-        val recyclerView = notesSetRecyclerView
-        val adapter = NoteAdapter(activity!!.applicationContext, this)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
+            addNewNote.setOnClickListener { view?.let { it1 -> addNote(it1) } }
+            val recyclerView = notesSetRecyclerView
+            val adapter = NoteAdapter(activity!!.applicationContext, this)
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = GridLayoutManager(activity!!.applicationContext, 2)
 
-        NoteViewModelFactory.setApplication(this.activity!!.application)
-        NoteViewModelFactory.setIdF(shownIndex)
-        noteViewModel = ViewModelProvider(
-            this,
-            NoteViewModelFactory
-        )
-            .get(NoteViewModel::class.java)
-        noteViewModel.notes.observe(this, Observer { noteLists ->
-            // Update the cached copy of the words in the adapter.
-            noteLists?.let { adapter.setList(it) }
-        })
+            NoteViewModelFactory.setApplication(this.activity!!.application)
+            NoteViewModelFactory.setIdF(shownIndex)
+            noteViewModel = ViewModelProvider(
+                this,
+                NoteViewModelFactory
+            ).get(NoteViewModel::class.java)
+            noteViewModel.notes.observe(this, Observer { noteLists ->
+                // Update the cached copy of the words in the adapter.
+                noteLists?.let { adapter.setList(it) }
+            })
+        }
     }
 
     fun addNote(view: View) {
@@ -85,12 +88,18 @@ class NotesSetFragment : Fragment(),NoteAdapter.OnNoteSetListener {
 
         with(dialog) {
             add_button.isEnabled = false
-            cancelButton.setOnClickListener{
+            cancelButton.setOnClickListener {
                 dismiss()
             }
             add_button.setOnClickListener {
-                noteViewModel.insert(NoteEntity(null,shownIndex,word.text.toString(),translatedWord.text.toString()))
-                //todo add insert impl to room
+                noteViewModel.insert(
+                    NoteEntity(
+                        null,
+                        shownIndex,
+                        word.text.toString(),
+                        translatedWord.text.toString()
+                    )
+                )
                 dismiss()
             }
             var firstNotEmpty = false
@@ -152,11 +161,12 @@ class NotesSetFragment : Fragment(),NoteAdapter.OnNoteSetListener {
     }
 
     override fun onClick(noteHolder: NoteHolder, position: Int) {
-        TODO("Not yet implemented")
+        Log.d("SET", "Note clicked")
     }
 
 
 }
+
 object NoteViewModelFactory : ViewModelProvider.Factory {
     lateinit var app: Application
     var id by Delegates.notNull<Int>()
@@ -169,6 +179,6 @@ object NoteViewModelFactory : ViewModelProvider.Factory {
     }
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return NoteViewModel(app,id) as T
+        return NoteViewModel(app, id) as T
     }
 }
