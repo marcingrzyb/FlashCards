@@ -1,7 +1,10 @@
 package pl.edu.agh.kis.flashcards.controller
 
+import android.app.Application
 import android.util.Log
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import pl.edu.agh.kis.flashcards.api.TranslationApi
@@ -16,9 +19,9 @@ class TranslatorController : Callback<ResponseData> {
     private val GOOGLE_TRANSLATE_API = "https://translation.googleapis.com/"
     private val GOOGLE_API_KEY = "AIzaSyDY37PAuUMgq21LfJ2RC_ghqq4jJzD1iV4"
 
-    lateinit var translatedText: TextView
+    lateinit var translatedText: EditText
 
-    fun translate(translatedText: TextView, textToTranslate: String) {
+    fun translate(translatedText: EditText, textToTranslate: String,sourceLang:String,targetLang:String) {
         this.translatedText = translatedText
         val gson: Gson = GsonBuilder()
             .setLenient()
@@ -30,7 +33,7 @@ class TranslatorController : Callback<ResponseData> {
         val translationApi: TranslationApi =
             retrofit.create(TranslationApi::class.java)
         val call: Call<ResponseData> =
-            translationApi.translateWord(GOOGLE_API_KEY, "en", "pl", textToTranslate)
+            translationApi.translateWord(GOOGLE_API_KEY, sourceLang, targetLang, textToTranslate)
         call.enqueue(this)
     }
 
@@ -40,9 +43,9 @@ class TranslatorController : Callback<ResponseData> {
     ) {
         if (response.isSuccessful) {
             val responseData: ResponseData? = response.body()
-            translatedText.text = responseData!!.data.translations?.first()?.translatedText.orEmpty()
+            translatedText.setText(responseData!!.data.translations?.first()?.translatedText.orEmpty())
         } else {
-            Log.e("TRANSLATION", response.errorBody().toString())
+            Toast.makeText(translatedText.context,"error during translation",Toast.LENGTH_SHORT).show()
         }
     }
 

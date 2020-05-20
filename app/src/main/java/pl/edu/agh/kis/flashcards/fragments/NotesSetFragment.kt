@@ -3,6 +3,7 @@ package pl.edu.agh.kis.flashcards.fragments
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.add_note_dialog.*
 import kotlinx.android.synthetic.main.fragment_notes_list.*
 import pl.edu.agh.kis.flashcards.R
+import pl.edu.agh.kis.flashcards.controller.TranslatorController
 import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
 import pl.edu.agh.kis.flashcards.recyclerView.NoteAdapter
 import pl.edu.agh.kis.flashcards.recyclerView.NoteHolder
@@ -27,15 +29,15 @@ import kotlin.properties.Delegates
 
 private lateinit var noteViewModel: NoteViewModel
 
+
 class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-    }
+    private lateinit var translatorController: TranslatorController
 
     val shownIndex: Int by lazy {
         arguments?.getInt("index", 0) ?: 0
+    }
+    val targetLang:String by lazy {
+        arguments?.getString("targetLang","")?:""
     }
 
     override fun onCreateView(
@@ -51,6 +53,7 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        translatorController= TranslatorController()
         if (activity!!.findViewById<View>(R.id.note_list) != null
             || activity!!.findViewById<View>(R.id.note_lists_list) == null
         ) {
@@ -90,6 +93,12 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
             add_button.isEnabled = false
             cancelButton.setOnClickListener {
                 dismiss()
+            }
+            translateButton.setOnClickListener {
+                translatorController.translate(translatedWord,word.text.toString(),
+                    Resources.getSystem().getConfiguration().locales[0].language,targetLang)
+                Log.d("source",Resources.getSystem().getConfiguration().locales[0].language)
+                Log.d("target",targetLang)
             }
             add_button.setOnClickListener {
                 noteViewModel.insert(

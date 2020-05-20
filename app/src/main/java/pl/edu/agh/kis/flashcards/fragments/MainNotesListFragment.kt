@@ -185,6 +185,7 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             val intent = Intent().apply {
                 setClass(context!!, NoteListDetailsActivity::class.java)
                 putExtra("index", noteListViewModel.allNoteLists.value?.get(index)!!.id)
+                putExtra("targetLang",noteListViewModel.allNoteLists.value?.get(index)!!.toLanguage)
             }
             startActivity(intent)
         }
