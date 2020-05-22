@@ -9,6 +9,7 @@ import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
 
 @Dao
 interface NoteDAO {
+
     @Query("SELECT * FROM NoteEntity WHERE listId LIKE :listId_")
     fun loadAllById(listId_: Int): LiveData<List<NoteEntity>>
 
@@ -20,4 +21,5 @@ interface NoteDAO {
 
     @Delete
     fun delete(noteEntity: NoteEntity)
+
 }

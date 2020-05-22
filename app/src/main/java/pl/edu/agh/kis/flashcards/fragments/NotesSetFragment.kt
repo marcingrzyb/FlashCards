@@ -2,8 +2,7 @@ package pl.edu.agh.kis.flashcards.fragments
 
 import android.app.AlertDialog
 import android.app.Application
-import android.content.Context
-import android.content.res.Resources
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,9 +15,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.add_note_dialog.*
 import kotlinx.android.synthetic.main.fragment_notes_list.*
+import pl.edu.agh.kis.flashcards.Learn
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.controller.TranslatorController
 import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
@@ -26,6 +25,7 @@ import pl.edu.agh.kis.flashcards.recyclerView.NoteAdapter
 import pl.edu.agh.kis.flashcards.recyclerView.NoteHolder
 import pl.edu.agh.kis.flashcards.viewmodels.NoteViewModel
 import kotlin.properties.Delegates
+
 
 private lateinit var noteViewModel: NoteViewModel
 
@@ -64,6 +64,8 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
         ) {
             //prevent error on rotating back
             addNewNote.setOnClickListener { view?.let { it1 -> addNote(it1) } }
+            play.setOnClickListener { view?.let { it1 -> playFlashCards(it1) } }
+
             val recyclerView = notesSetRecyclerView
             val adapter = NoteAdapter(activity!!.applicationContext, this)
             recyclerView.adapter = adapter
@@ -80,6 +82,11 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
                 noteLists?.let { adapter.setList(it) }
             })
         }
+    }
+
+    fun playFlashCards(view: View) {
+        val intent = Intent(activity, Learn::class.java)
+        startActivity(intent)
     }
 
     fun addNote(view: View) {

@@ -13,6 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class TranslatorController : Callback<ResponseData> {
+
     private val GOOGLE_TRANSLATE_API = "https://translation.googleapis.com/"
     private val GOOGLE_API_KEY = "AIzaSyDY37PAuUMgq21LfJ2RC_ghqq4jJzD1iV4"
 
