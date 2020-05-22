@@ -36,8 +36,13 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
     val shownIndex: Int by lazy {
         arguments?.getInt("index", 0) ?: 0
     }
-    val targetLang:String by lazy {
-        arguments?.getString("targetLang","")?:""
+
+    val targetLang: String by lazy {
+        arguments?.getString("targetLang", "") ?: ""
+    }
+
+    val sourceLang: String by lazy {
+        arguments?.getString("sourceLang", "") ?: ""
     }
 
     override fun onCreateView(
@@ -53,7 +58,7 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        translatorController= TranslatorController()
+        translatorController = TranslatorController()
         if (activity!!.findViewById<View>(R.id.note_list) != null
             || activity!!.findViewById<View>(R.id.note_lists_list) == null
         ) {
@@ -95,10 +100,14 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
                 dismiss()
             }
             translateButton.setOnClickListener {
-                translatorController.translate(translatedWord,word.text.toString(),
-                    Resources.getSystem().getConfiguration().locales[0].language,targetLang)
-                Log.d("source",Resources.getSystem().getConfiguration().locales[0].language)
-                Log.d("target",targetLang)
+                translatorController.translate(
+                    translatedWord,
+                    word.text.toString(),
+                    sourceLang,
+                    targetLang
+                )
+                Log.d("source", sourceLang)
+                Log.d("target", targetLang)
             }
             add_button.setOnClickListener {
                 noteViewModel.insert(

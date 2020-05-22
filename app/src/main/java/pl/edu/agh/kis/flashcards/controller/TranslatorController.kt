@@ -1,9 +1,6 @@
 package pl.edu.agh.kis.flashcards.controller
 
-import android.app.Application
-import android.util.Log
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -21,7 +18,12 @@ class TranslatorController : Callback<ResponseData> {
 
     lateinit var translatedText: EditText
 
-    fun translate(translatedText: EditText, textToTranslate: String,sourceLang:String,targetLang:String) {
+    fun translate(
+        translatedText: EditText,
+        textToTranslate: String,
+        sourceLang: String,
+        targetLang: String
+    ) {
         this.translatedText = translatedText
         val gson: Gson = GsonBuilder()
             .setLenient()

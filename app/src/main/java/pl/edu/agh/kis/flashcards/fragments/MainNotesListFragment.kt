@@ -126,7 +126,8 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            dialog.langSpinner.adapter = adapter
+            dialog.baseLangSpinner.adapter = adapter
+            dialog.targetLangSpinner.adapter = adapter
         }
 
 
@@ -138,7 +139,8 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
                     NoteListEntity(
                         null,
                         editText1.text.toString(),
-                        langSpinner.selectedItem.toString()
+                        baseLangSpinner.selectedItem.toString(),
+                        targetLangSpinner.selectedItem.toString()
                     )
                 )
                 dismiss()
@@ -185,7 +187,8 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             val intent = Intent().apply {
                 setClass(context!!, NoteListDetailsActivity::class.java)
                 putExtra("index", noteListViewModel.allNoteLists.value?.get(index)!!.id)
-                putExtra("targetLang",noteListViewModel.allNoteLists.value?.get(index)!!.toLanguage)
+                putExtra("sourceLang",noteListViewModel.allNoteLists.value?.get(index)!!.baseLanguage)
+                putExtra("targetLang",noteListViewModel.allNoteLists.value?.get(index)!!.targetLanguage)
             }
             startActivity(intent)
         }

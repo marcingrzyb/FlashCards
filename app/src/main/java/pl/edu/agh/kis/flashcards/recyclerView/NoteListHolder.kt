@@ -13,22 +13,24 @@ class NoteListHolder(
     RecyclerView.ViewHolder(view), View.OnClickListener {
 
     private var listName: TextView? = null
-    private var listLang: TextView? = null
+    private var listBaseLang: TextView? = null
+    private var listTargetLang: TextView? = null
 
     init {
         listName = itemView.findViewById(R.id.list_title)
-        listLang = itemView.findViewById(R.id.list_description)
+        listBaseLang = itemView.findViewById(R.id.base_language)
+        listTargetLang = itemView.findViewById(R.id.target_language)
     }
 
     fun bind(noteListEntity: NoteListEntity) {
         listName?.text = noteListEntity.listName
-        listLang?.text = noteListEntity.toLanguage
+        listBaseLang?.text = noteListEntity.baseLanguage
+        listTargetLang?.text = noteListEntity.targetLanguage
         itemView.setOnClickListener(this)
     }
 
     override fun onClick(itemView: View?) {
         onNoteSetListener.onClick(this, adapterPosition)
     }
-
 
 }

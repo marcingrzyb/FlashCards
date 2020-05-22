@@ -24,7 +24,15 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/list_description"
+            android:id="@+id/base_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:paddingLeft="16dp"
+            android:text="@string/lng" />
+
+        <TextView
+            android:id="@+id/target_language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"

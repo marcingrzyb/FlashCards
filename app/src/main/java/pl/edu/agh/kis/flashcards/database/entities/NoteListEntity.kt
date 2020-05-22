@@ -9,5 +9,6 @@ import java.io.Serializable
 data class NoteListEntity(
     @PrimaryKey(autoGenerate = true) val id: Int?,
     @ColumnInfo(name="listName") val listName: String?,
-    @ColumnInfo(name = "Language") val toLanguage: String?
+    @ColumnInfo(name = "baseLanguage") val baseLanguage: String?,
+    @ColumnInfo(name = "targetLanguage") val targetLanguage: String?
 )

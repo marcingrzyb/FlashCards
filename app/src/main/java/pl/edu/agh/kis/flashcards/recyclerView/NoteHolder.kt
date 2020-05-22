@@ -17,7 +17,7 @@ class NoteHolder(
 
     init {
         word = itemView.findViewById(R.id.list_title)
-        translatedWord = itemView.findViewById(R.id.list_description)
+        translatedWord = itemView.findViewById(R.id.base_language)
     }
 
     fun bind(noteEntity: NoteEntity) {
