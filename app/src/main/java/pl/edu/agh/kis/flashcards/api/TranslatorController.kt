@@ -1,10 +1,9 @@
-package pl.edu.agh.kis.flashcards.controller
+package pl.edu.agh.kis.flashcards.api
 
 import android.widget.EditText
 import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import pl.edu.agh.kis.flashcards.api.TranslationApi
 import pl.edu.agh.kis.flashcards.api.model.ResponseData
 import retrofit2.Call
 import retrofit2.Callback

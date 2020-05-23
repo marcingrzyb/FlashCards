@@ -6,17 +6,25 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.lifecycle.LiveData;
+
+import java.util.List;
+
+import pl.edu.agh.kis.flashcards.database.entities.NoteEntity;
+import pl.edu.agh.kis.flashcards.fragments.FlashCard;
 
 public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
 
-    public FlashCardCollectionAdapter(@NonNull FragmentManager fm, int behavior) {
+    private List<NoteEntity> notes;
+
+    public FlashCardCollectionAdapter(@NonNull FragmentManager fm, int behavior, List<NoteEntity> notes) {
         super(fm, behavior);
+        this.notes = notes;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-
         FlashCard flashCardKt = new FlashCard();
         Bundle bundle = new Bundle();
         position = position + 1;
@@ -27,6 +35,7 @@ public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 10;
+        return notes.size();
     }
+
 }

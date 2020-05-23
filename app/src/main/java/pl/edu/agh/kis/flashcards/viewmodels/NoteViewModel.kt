@@ -10,7 +10,7 @@ import pl.edu.agh.kis.flashcards.database.NoteListDataBase
 import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
 import pl.edu.agh.kis.flashcards.database.services.NoteRepository
 
-public class NoteViewModel(application: Application, id: Int) : AndroidViewModel(application) {
+class NoteViewModel(application: Application, id: Int) : AndroidViewModel(application) {
 
     private val repository: NoteRepository
     // Using LiveData and caching what getAlphabetizedWords returns has several benefits:
@@ -20,7 +20,7 @@ public class NoteViewModel(application: Application, id: Int) : AndroidViewModel
     val notes: LiveData<List<NoteEntity>>
 
     init {
-        val noteDao = NoteListDataBase.getDatabase(application,viewModelScope).noteDao()
+        val noteDao = NoteListDataBase.getDatabase(application).noteDao()
         repository = NoteRepository(noteDao)
         notes = repository.getAllById(id)
     }
@@ -31,10 +31,12 @@ public class NoteViewModel(application: Application, id: Int) : AndroidViewModel
     fun insert(noteEntity: NoteEntity) = viewModelScope.launch(IO) {
         repository.addNote(noteEntity)
     }
-    fun deleteAllById(id: Int)=viewModelScope.launch(IO){
+
+    fun deleteAllById(id: Int) = viewModelScope.launch(IO) {
         repository.deleteAllById(id)
     }
-    fun delete(noteEntity: NoteEntity)=viewModelScope.launch(IO){
+
+    fun delete(noteEntity: NoteEntity) = viewModelScope.launch(IO) {
         repository.delete(noteEntity)
     }
 }

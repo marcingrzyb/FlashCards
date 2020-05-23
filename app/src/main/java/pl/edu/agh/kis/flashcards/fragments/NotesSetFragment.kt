@@ -19,8 +19,9 @@ import kotlinx.android.synthetic.main.add_note_dialog.*
 import kotlinx.android.synthetic.main.fragment_notes_list.*
 import pl.edu.agh.kis.flashcards.Learn
 import pl.edu.agh.kis.flashcards.R
-import pl.edu.agh.kis.flashcards.controller.TranslatorController
+import pl.edu.agh.kis.flashcards.api.TranslatorController
 import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
+import pl.edu.agh.kis.flashcards.fragments.ViewModelFactory.app
 import pl.edu.agh.kis.flashcards.recyclerView.NoteAdapter
 import pl.edu.agh.kis.flashcards.recyclerView.NoteHolder
 import pl.edu.agh.kis.flashcards.viewmodels.NoteViewModel
@@ -85,7 +86,11 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
     }
 
     fun playFlashCards(view: View) {
+
         val intent = Intent(activity, Learn::class.java)
+        val b = Bundle()
+        b.putInt("id", shownIndex) //Your id
+        intent.putExtras(b)
         startActivity(intent)
     }
 

@@ -21,7 +21,7 @@ public class NoteListViewModel(application: Application) : AndroidViewModel(appl
     val allNoteLists: LiveData<List<NoteListEntity>>
 
     init {
-        val notelistDao = NoteListDataBase.getDatabase(application,viewModelScope).noteListDAO()
+        val notelistDao = NoteListDataBase.getDatabase(application).noteListDAO()
         repository = NoteListRepository(notelistDao)
         allNoteLists = repository.allNoteLists
     }

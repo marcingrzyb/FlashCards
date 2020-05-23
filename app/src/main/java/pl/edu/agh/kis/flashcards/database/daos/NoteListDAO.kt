@@ -8,6 +8,7 @@ import pl.edu.agh.kis.flashcards.database.entities.NoteListWNotes
 
 @Dao
 abstract class NoteListDAO {
+
     @Query("SELECT * FROM NoteListEntity")
     abstract fun getAll():LiveData<List<NoteListEntity>>
 
@@ -32,4 +33,5 @@ abstract class NoteListDAO {
 
     @Update
     abstract suspend fun update(noteListEntity: NoteListEntity)
+
 }

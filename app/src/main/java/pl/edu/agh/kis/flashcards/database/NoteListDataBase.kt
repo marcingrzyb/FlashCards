@@ -12,8 +12,9 @@ import pl.edu.agh.kis.flashcards.database.daos.NoteListDAO
 import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
 import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
 
-@Database(entities = arrayOf(NoteListEntity::class,NoteEntity::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(NoteListEntity::class, NoteEntity::class), version = 1, exportSchema = false)
 abstract class NoteListDataBase : RoomDatabase() {
+
     abstract fun noteListDAO(): NoteListDAO
     abstract fun noteDao():NoteDAO
 
@@ -23,7 +24,7 @@ abstract class NoteListDataBase : RoomDatabase() {
         @Volatile
         private var INSTANCE: NoteListDataBase? = null
 
-        fun getDatabase(context: Context,scope: CoroutineScope): NoteListDataBase {
+        fun getDatabase(context: Context): NoteListDataBase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -39,4 +40,5 @@ abstract class NoteListDataBase : RoomDatabase() {
             }
         }
     }
+
 }
