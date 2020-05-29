@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.fragments
+package pl.edu.agh.kis.flashcards.module.main.fragment
 
 import android.app.AlertDialog
 import android.app.Application
@@ -21,8 +21,8 @@ import pl.edu.agh.kis.flashcards.module.playmode.Learn
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.api.TranslatorController
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
-import pl.edu.agh.kis.flashcards.recyclerView.NoteAdapter
-import pl.edu.agh.kis.flashcards.recyclerView.NoteHolder
+import pl.edu.agh.kis.flashcards.module.main.viewmodel.NoteAdapter
+import pl.edu.agh.kis.flashcards.module.main.viewmodel.NoteHolder
 import pl.edu.agh.kis.flashcards.viewmodels.NoteViewModel
 import kotlin.properties.Delegates
 
@@ -65,12 +65,20 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
             play.setOnClickListener { view?.let { it1 -> playFlashCards(it1) } }
 
             val recyclerView = notesSetRecyclerView
-            val adapter = NoteAdapter(activity!!.applicationContext, this)
+            val adapter =
+                NoteAdapter(
+                    activity!!.applicationContext,
+                    this
+                )
             recyclerView.adapter = adapter
             recyclerView.layoutManager = GridLayoutManager(activity!!.applicationContext, 2)
 
-            NoteViewModelFactory.setApplication(this.activity!!.application)
-            NoteViewModelFactory.setIdF(shownIndex)
+            NoteViewModelFactory.setApplication(
+                this.activity!!.application
+            )
+            NoteViewModelFactory.setIdF(
+                shownIndex
+            )
             noteViewModel = ViewModelProvider(
                 this,
                 NoteViewModelFactory
@@ -176,7 +184,8 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
          * show the text at 'index'.
          */
         fun newInstance(index: Int): NotesSetFragment {
-            val f = NotesSetFragment()
+            val f =
+                NotesSetFragment()
 
             // Supply index input as an argument.
             val args = Bundle()
@@ -206,6 +215,9 @@ object NoteViewModelFactory : ViewModelProvider.Factory {
     }
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return NoteViewModel(app, id) as T
+        return NoteViewModel(
+            app,
+            id
+        ) as T
     }
 }

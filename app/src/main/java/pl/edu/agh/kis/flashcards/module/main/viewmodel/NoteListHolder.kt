@@ -1,10 +1,11 @@
-package pl.edu.agh.kis.flashcards.recyclerView
+package pl.edu.agh.kis.flashcards.module.main.viewmodel
 
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
+import pl.edu.agh.kis.flashcards.module.main.viewmodel.NoteListAdapterRecycler
 
 class NoteListHolder(
     view: View,

@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.recyclerView
+package pl.edu.agh.kis.flashcards.module.main.viewmodel
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -15,7 +15,10 @@ class NoteListAdapterRecycler internal constructor(
     private var noteListEntity = emptyList<NoteListEntity>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListHolder {
         val itemView = inflater.inflate(R.layout.list_item, parent, false)
-        return NoteListHolder(itemView, onNoteSetListener)
+        return NoteListHolder(
+            itemView,
+            onNoteSetListener
+        )
     }
 
     override fun onBindViewHolder(holder: NoteListHolder, position: Int) {

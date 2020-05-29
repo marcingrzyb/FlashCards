@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.fragments
+package pl.edu.agh.kis.flashcards.module.playmode.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

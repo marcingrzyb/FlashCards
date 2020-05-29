@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.module.playmode;
+package pl.edu.agh.kis.flashcards.module.playmode.viewmodel;
 
 import android.os.Bundle;
 
@@ -10,8 +10,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import java.util.List;
 
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity;
-import pl.edu.agh.kis.flashcards.fragments.FlashCard;
-import pl.edu.agh.kis.flashcards.fragments.SessionSummary;
+import pl.edu.agh.kis.flashcards.module.playmode.fragment.FlashCard;
+import pl.edu.agh.kis.flashcards.module.playmode.fragment.SessionSummary;
 
 public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
 
@@ -35,7 +35,7 @@ public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
             bundle.putSerializable("note", noteEntity);
             fragment.setArguments(bundle);
         } else {
-            fragment = new SessionSummary();
+            fragment = new SessionSummary(sessionId);
         }
 
         return fragment;

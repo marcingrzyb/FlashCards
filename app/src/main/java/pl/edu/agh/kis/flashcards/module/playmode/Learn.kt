@@ -4,13 +4,14 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.viewpager.widget.ViewPager
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.NoteListDataBase
 import pl.edu.agh.kis.flashcards.database.dao.SessionDao
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 import pl.edu.agh.kis.flashcards.database.entity.Session
 import pl.edu.agh.kis.flashcards.database.services.NoteRepository
+import pl.edu.agh.kis.flashcards.module.playmode.viewmodel.FlashCardCollectionAdapter
+import pl.edu.agh.kis.flashcards.module.playmode.viewmodel.ViewPagerDisabled
 import java.time.Instant
 import java.util.concurrent.Executors
 
@@ -31,17 +32,18 @@ class Learn() : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        var sessionId = 0L
+        Executors.newSingleThreadExecutor().execute(Runnable { sessionId = prepareSession() })
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learn)
         var intExtra = getIntent().getIntExtra("id", 0)
         notes = repository.getAllById(intExtra)
-        var sessionId = 0L
-        Executors.newSingleThreadExecutor().execute(Runnable { sessionId = prepareSession() })
         notes.observe(this, createFlashCardFragments(sessionId))
     }
 
     private fun prepareSession(): Long {
-        var session = Session(null, Instant.now().epochSecond, null)
+        var session = Session(null, Instant.now().toEpochMilli(), null)
         return sessionDao.insert(session)
     }
 

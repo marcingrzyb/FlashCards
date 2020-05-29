@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.fragments
+package pl.edu.agh.kis.flashcards.module.main.fragment
 
 import android.app.AlertDialog
 import android.app.Application
@@ -21,8 +21,8 @@ import kotlinx.android.synthetic.main.fragment_main_notes_list.*
 import pl.edu.agh.kis.flashcards.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
-import pl.edu.agh.kis.flashcards.recyclerView.NoteListAdapterRecycler
-import pl.edu.agh.kis.flashcards.recyclerView.NoteListHolder
+import pl.edu.agh.kis.flashcards.module.main.viewmodel.NoteListAdapterRecycler
+import pl.edu.agh.kis.flashcards.module.main.viewmodel.NoteListHolder
 import pl.edu.agh.kis.flashcards.viewmodels.NoteListViewModel
 
 private const val ARG_PARAM1 = "param1"
@@ -64,10 +64,16 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             showDetails(curCheckPosition)
         }
         val recyclerView = MainNotesRecyclerView
-        val adapter = NoteListAdapterRecycler(activity!!.applicationContext, this)
+        val adapter =
+            NoteListAdapterRecycler(
+                activity!!.applicationContext,
+                this
+            )
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
-        ViewModelFactory.setApplication(this.activity!!.application)
+        ViewModelFactory.setApplication(
+            this.activity!!.application
+        )
         noteListViewModel = ViewModelProvider(
             this,
             ViewModelFactory
@@ -174,7 +180,11 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             var details = fragmentManager?.findFragmentById(R.id.note_list) as? NotesSetFragment
             if (details?.shownIndex != index) {
                 details =
-                    NotesSetFragment.newInstance(noteListViewModel.allNoteLists.value?.get(index)!!.id!!)
+                    NotesSetFragment.newInstance(
+                        noteListViewModel.allNoteLists.value?.get(
+                            index
+                        )!!.id!!
+                    )
                 fragmentManager?.beginTransaction()?.apply {
                     replace(R.id.note_list, details)
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -185,8 +195,10 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             val intent = Intent().apply {
                 setClass(context!!, NoteListDetailsActivity::class.java)
                 putExtra("index", noteListViewModel.allNoteLists.value?.get(index)!!.id)
-                putExtra("sourceLang",noteListViewModel.allNoteLists.value?.get(index)!!.baseLanguage)
-                putExtra("targetLang",noteListViewModel.allNoteLists.value?.get(index)!!.targetLanguage)
+                putExtra("sourceLang",
+                    noteListViewModel.allNoteLists.value?.get(index)!!.baseLanguage)
+                putExtra("targetLang",
+                    noteListViewModel.allNoteLists.value?.get(index)!!.targetLanguage)
             }
             startActivity(intent)
         }

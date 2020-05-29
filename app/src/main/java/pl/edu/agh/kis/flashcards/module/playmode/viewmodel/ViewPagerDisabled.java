@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.module.playmode;
+package pl.edu.agh.kis.flashcards.module.playmode.viewmodel;
 
 import android.content.Context;
 import android.util.AttributeSet;
