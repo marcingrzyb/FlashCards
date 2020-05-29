@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.module.playmode.viewmodel;
+package pl.edu.agh.kis.flashcards.module.playmode.view;
 
 import android.os.Bundle;
 
@@ -12,17 +12,18 @@ import java.util.List;
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity;
 import pl.edu.agh.kis.flashcards.module.playmode.fragment.FlashCard;
 import pl.edu.agh.kis.flashcards.module.playmode.fragment.SessionSummary;
+import pl.edu.agh.kis.flashcards.module.playmode.service.EventSessionHandler;
 
 public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
 
     private final List<NoteEntity> notes;
-    private final Long sessionId;
+    private final EventSessionHandler eventSessionHandler;
     private SessionSummary sessionSummary;
 
-    public FlashCardCollectionAdapter(@NonNull FragmentManager fm, int behavior, List<NoteEntity> notes, Long sessionId) {
+    public FlashCardCollectionAdapter(@NonNull FragmentManager fm, int behavior, List<NoteEntity> notes, EventSessionHandler eventSessionHandler) {
         super(fm, behavior);
         this.notes = notes;
-        this.sessionId = sessionId;
+        this.eventSessionHandler = eventSessionHandler;
     }
 
     @NonNull
@@ -30,13 +31,13 @@ public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment;
         if (position != notes.size()) {
-            fragment = new FlashCard();
+            fragment = new FlashCard(eventSessionHandler);
             Bundle bundle = new Bundle();
             NoteEntity noteEntity = notes.get(position);
             bundle.putSerializable("note", noteEntity);
             fragment.setArguments(bundle);
         } else {
-            sessionSummary = new SessionSummary(sessionId);
+            sessionSummary = new SessionSummary(eventSessionHandler);
             return sessionSummary;
         }
         return fragment;

@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.module.playmode.viewmodel;
+package pl.edu.agh.kis.flashcards.module.playmode.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -62,7 +62,8 @@ public class ViewPagerDisabled extends ViewPager {
     }
 
     private boolean isaBoolean(FlashCardCollectionAdapter adapter) {
-        return this.getCurrentItem() == this.getAdapter().getCount() - 2 && Objects.nonNull(adapter.getSessionSummary());
+        return this.getCurrentItem() == this.getAdapter().getCount() - 2
+                && Objects.nonNull(adapter.getSessionSummary());
     }
 
 }

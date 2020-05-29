@@ -1,10 +1,9 @@
-package pl.edu.agh.kis.flashcards
+package pl.edu.agh.kis.flashcards.module.main.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import pl.edu.agh.kis.flashcards.R
 
 class MainActivity : AppCompatActivity(){
 

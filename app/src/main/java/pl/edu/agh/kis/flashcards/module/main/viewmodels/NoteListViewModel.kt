@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.viewmodels
+package pl.edu.agh.kis.flashcards.module.main.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

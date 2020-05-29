@@ -15,14 +15,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".TypeInTranslation"></activity>
         <activity android:name="pl.edu.agh.kis.flashcards.module.playmode.Learn" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".module.main.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NoteListDetailsActivity" />
+        <activity android:name=".module.main.activity.NoteListDetailsActivity" />
     </application>
 
 </manifest>

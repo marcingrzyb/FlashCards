@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards
+package pl.edu.agh.kis.flashcards.module.main.activity
 
 import android.content.res.Configuration
 import android.os.Bundle

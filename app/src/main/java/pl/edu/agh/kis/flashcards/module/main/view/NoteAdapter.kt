@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.module.main.viewmodel
+package pl.edu.agh.kis.flashcards.module.main.view
 
 import android.content.Context
 import android.view.LayoutInflater

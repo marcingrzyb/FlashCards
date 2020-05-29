@@ -21,9 +21,9 @@ import pl.edu.agh.kis.flashcards.module.playmode.Learn
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.api.TranslatorController
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
-import pl.edu.agh.kis.flashcards.module.main.viewmodel.NoteAdapter
-import pl.edu.agh.kis.flashcards.module.main.viewmodel.NoteHolder
-import pl.edu.agh.kis.flashcards.viewmodels.NoteViewModel
+import pl.edu.agh.kis.flashcards.module.main.view.NoteAdapter
+import pl.edu.agh.kis.flashcards.module.main.view.NoteHolder
+import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteViewModel
 import kotlin.properties.Delegates
 
 private lateinit var noteViewModel: NoteViewModel

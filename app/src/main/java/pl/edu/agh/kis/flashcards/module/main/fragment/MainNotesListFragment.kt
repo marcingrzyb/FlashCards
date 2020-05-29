@@ -18,12 +18,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.add_new_list_dialog.*
 import kotlinx.android.synthetic.main.fragment_main_notes_list.*
-import pl.edu.agh.kis.flashcards.NoteListDetailsActivity
+import pl.edu.agh.kis.flashcards.module.main.activity.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
-import pl.edu.agh.kis.flashcards.module.main.viewmodel.NoteListAdapterRecycler
-import pl.edu.agh.kis.flashcards.module.main.viewmodel.NoteListHolder
-import pl.edu.agh.kis.flashcards.viewmodels.NoteListViewModel
+import pl.edu.agh.kis.flashcards.module.main.view.NoteListAdapterRecycler
+import pl.edu.agh.kis.flashcards.module.main.view.NoteListHolder
+import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteListViewModel
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
