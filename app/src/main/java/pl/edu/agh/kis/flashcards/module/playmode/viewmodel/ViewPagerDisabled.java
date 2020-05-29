@@ -52,6 +52,10 @@ public class ViewPagerDisabled extends ViewPager {
         if (!lockPage) {
             lockPage = this.getCurrentItem() == this.getAdapter().getCount() - 1;
         }
+        if (lockPage) {
+            FlashCardCollectionAdapter adapter = (FlashCardCollectionAdapter) this.getAdapter();
+            adapter.getSessionSummary().processData();
+        }
         return lockPage;
     }
 

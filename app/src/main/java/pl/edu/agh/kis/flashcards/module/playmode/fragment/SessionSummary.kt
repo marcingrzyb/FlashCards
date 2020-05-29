@@ -1,17 +1,19 @@
 package pl.edu.agh.kis.flashcards.module.playmode.fragment
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
+import androidx.fragment.app.Fragment
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.NoteListDataBase
 import java.time.Instant
-import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +25,7 @@ class SessionSummary(sessionId: Long) : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var sessionId: Long = sessionId
+    private var time: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,28 +34,33 @@ class SessionSummary(sessionId: Long) : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
+    @SuppressLint("StaticFieldLeak")
+    fun processData() {
+        object : AsyncTask<Any?, Any?, Any?>() {
+            var toSeconds = 0L
+            override fun onPostExecute(result: Any?) {
+                time?.setText(toSeconds.toString())
+            }
 
+            override fun doInBackground(vararg params: Any?) {
+                var sessionDao = NoteListDataBase.getDatabase(params.get(0) as Context).sessionDao()
+                var load = sessionDao.load(sessionId.toInt())
+
+                var minusMillis = Instant.now().minusMillis(load.startTime!!)
+                toSeconds = TimeUnit.MILLISECONDS.toSeconds(minusMillis.toEpochMilli());
+            }
+        }.execute(this.activity!!.application)
+
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         var inflate = inflater.inflate(R.layout.fragment_session_summary, container, false)
-        val time: TextView = inflate.findViewById(R.id.word2)
-        var toSeconds = 0L
-        //change to last index
-        Executors.newSingleThreadExecutor().execute(Runnable {
-            var sessionDao = NoteListDataBase.getDatabase(this.activity!!.application).sessionDao()
-            var load = sessionDao.load(sessionId.toInt())
+        time = inflate.findViewById(R.id.word2)
 
-            var minusMillis = Instant.now().minusMillis(load.startTime!!)
-            toSeconds = TimeUnit.MILLISECONDS.toSeconds(minusMillis.toEpochMilli());
-        })
-
-        time.r
-
-        time.setText(toSeconds.toString())
         return inflate
     }
 

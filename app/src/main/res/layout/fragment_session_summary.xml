@@ -15,7 +15,7 @@
         android:layout_weight="40"
         android:gravity="center"
         android:text="@string/time_label"
-        android:textSize="36sp" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/word2"
@@ -23,11 +23,10 @@
         android:layout_height="match_parent"
         android:layout_weight="40"
         android:autofillHints=""
-        android:ems="10"
+        android:ems="15"
         android:gravity="center"
         android:hint="@string/front"
-        android:inputType="text"
-        android:textSize="36sp" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/empty"

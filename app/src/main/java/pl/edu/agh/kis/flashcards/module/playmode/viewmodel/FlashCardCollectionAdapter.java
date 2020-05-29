@@ -17,6 +17,7 @@ public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
 
     private final List<NoteEntity> notes;
     private final Long sessionId;
+    private SessionSummary sessionSummary;
 
     public FlashCardCollectionAdapter(@NonNull FragmentManager fm, int behavior, List<NoteEntity> notes, Long sessionId) {
         super(fm, behavior);
@@ -35,10 +36,15 @@ public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
             bundle.putSerializable("note", noteEntity);
             fragment.setArguments(bundle);
         } else {
-            fragment = new SessionSummary(sessionId);
+            sessionSummary = new SessionSummary(sessionId);
+            return sessionSummary;
         }
 
         return fragment;
+    }
+
+    public SessionSummary getSessionSummary() {
+        return sessionSummary;
     }
 
 
