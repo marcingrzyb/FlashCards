@@ -10,5 +10,6 @@ data class NoteEntity (
     @PrimaryKey(autoGenerate = true) val id: Int?,
     @ColumnInfo(name="listId") val listId: Int,
     @ColumnInfo(name = "Word") val word: String,
-    @ColumnInfo(name = "TranslatedWord") val translatedWord: String?
+    @ColumnInfo(name = "TranslatedWord") val translatedWord: String?,
+    @ColumnInfo(name = "favourite") val favourite: Boolean?
 ):Serializable

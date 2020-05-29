@@ -7,54 +7,43 @@
     android:orientation="vertical"
     android:stateListAnimator="@null">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/favouriteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/heart_disabled"
+            android:background="@null"/>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/word"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.40"
+        android:autofillHints=""
         android:ems="10"
+        android:gravity="center"
         android:hint="@string/front"
         android:inputType="text"
-        android:layout_height="0dp"
-        android:layout_weight="0.4"
-        android:gravity="center"
-        android:autofillHints="">
-    </TextView>
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal">-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/translatedWord"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:autofillHints=""-->
-<!--            android:ems="10"-->
-<!--            android:hint="@string/back"-->
-<!--            android:inputType="text" />-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/translateButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:adjustViewBounds="true"-->
-<!--            android:background="@mipmap/g_translate"-->
-<!--            android:contentDescription="@string/gtranslate"-->
-<!--            android:scaleType="centerCrop" />-->
-<!--    </LinearLayout>-->
+        android:textSize="36sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/word1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.40"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="@string/front"
         android:gravity="center"
+        android:hint="@string/front"
         android:inputType="text"
-        android:layout_weight="0.4"
-        android:autofillHints="">
-    </TextView>
+        android:textSize="36sp" />
 
 </LinearLayout>

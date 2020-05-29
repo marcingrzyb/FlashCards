@@ -1,11 +1,14 @@
 package pl.edu.agh.kis.flashcards.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
+import pl.edu.agh.kis.flashcards.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
 import java.io.Serializable
@@ -41,14 +44,17 @@ class FlashCard : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val inflate = inflater.inflate(R.layout.fragment_flash_card, container, false)
         var value: NoteEntity = entity as NoteEntity;
         val txtView: TextView = inflate.findViewById(R.id.word)
         val hiddenContent: TextView = inflate.findViewById(R.id.word1)
+        val favourite: ImageButton = inflate.findViewById(R.id.favouriteButton)
 
         txtView.setText(value.word)
         hiddenContent.setText("click")
+
+        var heart = R.drawable.heart
+        favourite.setImageResource(heart)
 
         hiddenContent.setOnClickListener {
             hiddenContent.setText(value.translatedWord)
@@ -76,4 +82,5 @@ class FlashCard : Fragment() {
                 }
             }
     }
+
 }

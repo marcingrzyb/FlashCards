@@ -1,6 +1,5 @@
 package pl.edu.agh.kis.flashcards
 
-import android.app.Application
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
@@ -17,7 +16,6 @@ class Learn() : AppCompatActivity() {
     private val repository: NoteRepository
     private lateinit var notes: LiveData<List<NoteEntity>>
 
-
     init {
         val noteDao = NoteListDataBase.getDatabase(this).noteDao()
         repository = NoteRepository(noteDao)
@@ -26,7 +24,8 @@ class Learn() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learn)
-        notes = repository.getAllById(2)
+        var intExtra = getIntent().getIntExtra("id", 0)
+        notes = repository.getAllById(intExtra)
 
         notes.observe(this, Observer { noteLists ->
             noteLists?.let {

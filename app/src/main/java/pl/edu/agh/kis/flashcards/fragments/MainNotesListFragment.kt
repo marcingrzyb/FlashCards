@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.fragment_main_notes_list.*
 import pl.edu.agh.kis.flashcards.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
-import pl.edu.agh.kis.flashcards.recyclerView.NoteHolder
 import pl.edu.agh.kis.flashcards.recyclerView.NoteListAdapterRecycler
 import pl.edu.agh.kis.flashcards.recyclerView.NoteListHolder
 import pl.edu.agh.kis.flashcards.viewmodels.NoteListViewModel
@@ -30,7 +29,6 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 private lateinit var noteListViewModel: NoteListViewModel
-
 
 class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListener {
 

@@ -86,7 +86,6 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
     }
 
     fun playFlashCards(view: View) {
-
         val intent = Intent(activity, Learn::class.java)
         val b = Bundle()
         b.putInt("id", shownIndex) //Your id
@@ -127,7 +126,8 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
                         null,
                         shownIndex,
                         word.text.toString(),
-                        translatedWord.text.toString()
+                        translatedWord.text.toString(),
+                        false
                     )
                 )
                 dismiss()
