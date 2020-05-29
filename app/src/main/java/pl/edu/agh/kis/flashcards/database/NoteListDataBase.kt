@@ -4,19 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import pl.edu.agh.kis.flashcards.database.daos.NoteDAO
-import pl.edu.agh.kis.flashcards.database.daos.NoteListDAO
-import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
-import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
+import pl.edu.agh.kis.flashcards.database.dao.NoteDAO
+import pl.edu.agh.kis.flashcards.database.dao.NoteListDAO
+import pl.edu.agh.kis.flashcards.database.dao.SessionDao
+import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
+import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
+import pl.edu.agh.kis.flashcards.database.entity.Session
 
-@Database(entities = arrayOf(NoteListEntity::class, NoteEntity::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(NoteListEntity::class, NoteEntity::class, Session::class), version = 1, exportSchema = false)
 abstract class NoteListDataBase : RoomDatabase() {
 
     abstract fun noteListDAO(): NoteListDAO
-    abstract fun noteDao():NoteDAO
+    abstract fun noteDao(): NoteDAO
+    abstract fun sessionDao(): SessionDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the

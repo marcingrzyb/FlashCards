@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TypeInTranslation"></activity>
-        <activity android:name=".Learn" />
+        <activity android:name="pl.edu.agh.kis.flashcards.module.playmode.Learn" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

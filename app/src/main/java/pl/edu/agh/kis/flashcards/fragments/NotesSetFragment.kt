@@ -17,19 +17,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.add_note_dialog.*
 import kotlinx.android.synthetic.main.fragment_notes_list.*
-import pl.edu.agh.kis.flashcards.Learn
+import pl.edu.agh.kis.flashcards.module.playmode.Learn
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.api.TranslatorController
-import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
-import pl.edu.agh.kis.flashcards.fragments.ViewModelFactory.app
+import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 import pl.edu.agh.kis.flashcards.recyclerView.NoteAdapter
 import pl.edu.agh.kis.flashcards.recyclerView.NoteHolder
 import pl.edu.agh.kis.flashcards.viewmodels.NoteViewModel
 import kotlin.properties.Delegates
 
-
 private lateinit var noteViewModel: NoteViewModel
-
 
 class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
     private lateinit var translatorController: TranslatorController

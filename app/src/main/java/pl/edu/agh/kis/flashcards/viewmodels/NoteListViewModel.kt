@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import pl.edu.agh.kis.flashcards.database.NoteListDataBase
-import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
-import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
+import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
+import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
 import pl.edu.agh.kis.flashcards.database.services.NoteListRepository
 
 public class NoteListViewModel(application: Application) : AndroidViewModel(application) {

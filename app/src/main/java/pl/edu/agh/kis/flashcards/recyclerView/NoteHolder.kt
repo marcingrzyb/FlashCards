@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.kis.flashcards.R
-import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
+import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 
 class NoteHolder(
     view: View,

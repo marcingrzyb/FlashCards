@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.kis.flashcards.R
-import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
-import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
+import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 
 class NoteAdapter internal constructor(
     context: Context, private val onNoteSetListener: OnNoteSetListener

@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.database.entities
+package pl.edu.agh.kis.flashcards.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -11,5 +11,5 @@ data class NoteEntity (
     @ColumnInfo(name="listId") val listId: Int,
     @ColumnInfo(name = "Word") val word: String,
     @ColumnInfo(name = "TranslatedWord") val translatedWord: String?,
-    @ColumnInfo(name = "favourite") val favourite: Boolean?
+    @ColumnInfo(name = "favourite") var favourite: Boolean?
 ):Serializable

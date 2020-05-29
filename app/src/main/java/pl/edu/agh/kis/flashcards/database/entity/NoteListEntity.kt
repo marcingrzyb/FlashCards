@@ -1,9 +1,8 @@
-package pl.edu.agh.kis.flashcards.database.entities
+package pl.edu.agh.kis.flashcards.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
 
 @Entity
 data class NoteListEntity(

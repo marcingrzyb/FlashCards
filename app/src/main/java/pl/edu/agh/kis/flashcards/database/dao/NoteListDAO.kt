@@ -1,10 +1,10 @@
-package pl.edu.agh.kis.flashcards.database.daos
+package pl.edu.agh.kis.flashcards.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
-import pl.edu.agh.kis.flashcards.database.entities.NoteListEntity
-import pl.edu.agh.kis.flashcards.database.entities.NoteListWNotes
+import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
+import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
+import pl.edu.agh.kis.flashcards.database.entity.NoteListWNotes
 
 @Dao
 abstract class NoteListDAO {

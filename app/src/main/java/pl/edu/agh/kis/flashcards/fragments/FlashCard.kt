@@ -1,6 +1,5 @@
 package pl.edu.agh.kis.flashcards.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import pl.edu.agh.kis.flashcards.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.R
-import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
+import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 import java.io.Serializable
 
 // TODO: Rename parameter arguments, choose names that match
@@ -53,26 +51,32 @@ class FlashCard : Fragment() {
         txtView.setText(value.word)
         hiddenContent.setText("click")
 
-        var heart = R.drawable.heart
-        favourite.setImageResource(heart)
+        processImage(value.favourite, favourite)
 
         hiddenContent.setOnClickListener {
             hiddenContent.setText(value.translatedWord)
         }
 
+        favourite.setOnClickListener {
+            value.favourite = !value.favourite!!
+            processImage(value.favourite, favourite)
+        }
+
         return inflate
     }
 
+    private fun processImage(
+        value: Boolean?,
+        favourite: ImageButton
+    ) {
+        var heart = R.drawable.heart_disabled
+        if (value?.not()!!) {
+            heart = R.drawable.heart
+        }
+        favourite.setImageResource(heart)
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FlashCard.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             FlashCard().apply {

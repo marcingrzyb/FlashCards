@@ -1,10 +1,11 @@
 package pl.edu.agh.kis.flashcards.database.services
 
 import androidx.lifecycle.LiveData
-import pl.edu.agh.kis.flashcards.database.daos.NoteDAO
-import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
+import pl.edu.agh.kis.flashcards.database.dao.NoteDAO
+import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 
 class NoteRepository(private val noteDAO: NoteDAO) {
+
     fun getAllById(id:Int): LiveData<List<NoteEntity>> {
         return noteDAO.loadAllById(id)
     }
@@ -17,4 +18,5 @@ class NoteRepository(private val noteDAO: NoteDAO) {
     fun delete(noteEntity: NoteEntity){
         noteDAO.delete(noteEntity)
     }
+
 }

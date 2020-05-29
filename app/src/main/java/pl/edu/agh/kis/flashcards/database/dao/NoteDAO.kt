@@ -1,11 +1,11 @@
-package pl.edu.agh.kis.flashcards.database.daos
+package pl.edu.agh.kis.flashcards.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
+import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 
 @Dao
 interface NoteDAO {
