@@ -39,14 +39,12 @@ public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
             sessionSummary = new SessionSummary(sessionId);
             return sessionSummary;
         }
-
         return fragment;
     }
 
     public SessionSummary getSessionSummary() {
         return sessionSummary;
     }
-
 
     @Override
     public int getCount() {

@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.core.view.MotionEventCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import java.util.Objects;
+
 public class ViewPagerDisabled extends ViewPager {
 
     private boolean lockPage;
@@ -49,14 +51,18 @@ public class ViewPagerDisabled extends ViewPager {
     }
 
     private boolean lockPage() {
+        FlashCardCollectionAdapter adapter = (FlashCardCollectionAdapter) this.getAdapter();
         if (!lockPage) {
             lockPage = this.getCurrentItem() == this.getAdapter().getCount() - 1;
         }
-        if (lockPage) {
-            FlashCardCollectionAdapter adapter = (FlashCardCollectionAdapter) this.getAdapter();
+        if (isaBoolean(adapter)) {
             adapter.getSessionSummary().processData();
         }
         return lockPage;
+    }
+
+    private boolean isaBoolean(FlashCardCollectionAdapter adapter) {
+        return this.getCurrentItem() == this.getAdapter().getCount() - 2 && Objects.nonNull(adapter.getSessionSummary());
     }
 
 }

@@ -44,7 +44,7 @@ class SessionSummary(sessionId: Long) : Fragment() {
 
             override fun doInBackground(vararg params: Any?) {
                 var sessionDao = NoteListDataBase.getDatabase(params.get(0) as Context).sessionDao()
-                var load = sessionDao.load(sessionId.toInt())
+                var load = sessionDao.loadLast()
 
                 var minusMillis = Instant.now().minusMillis(load.startTime!!)
                 toSeconds = TimeUnit.MILLISECONDS.toSeconds(minusMillis.toEpochMilli());
