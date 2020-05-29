@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import pl.edu.agh.kis.flashcards.R
+import pl.edu.agh.kis.flashcards.database.entities.NoteEntity
+import java.io.Serializable
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,7 +25,9 @@ class FlashCard : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var textView: TextView
+    val entity: Serializable by lazy {
+        arguments?.getSerializable("note")!!
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +43,17 @@ class FlashCard : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val inflate = inflater.inflate(R.layout.fragment_flash_card, container, false)
-        val txtView: TextView = inflate.findViewById(R.id.txt_view)
-        txtView.setText("hello")
+        var value: NoteEntity = entity as NoteEntity;
+        val txtView: TextView = inflate.findViewById(R.id.word)
+        val hiddenContent: TextView = inflate.findViewById(R.id.word1)
+
+        txtView.setText(value.word)
+        hiddenContent.setText("click")
+
+        hiddenContent.setOnClickListener {
+            hiddenContent.setText(value.translatedWord)
+        }
+
         return inflate
     }
 

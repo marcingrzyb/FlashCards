@@ -1,15 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FlashCard">
+    android:layout_weight="0.6"
+    android:orientation="vertical"
+    android:stateListAnimator="@null">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/word"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        android:id="@+id/txt_view"/>
+        android:ems="10"
+        android:hint="@string/front"
+        android:inputType="text"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:gravity="center"
+        android:autofillHints="">
+    </TextView>
 
-</FrameLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/translatedWord"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:autofillHints=""-->
+<!--            android:ems="10"-->
+<!--            android:hint="@string/back"-->
+<!--            android:inputType="text" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/translateButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:adjustViewBounds="true"-->
+<!--            android:background="@mipmap/g_translate"-->
+<!--            android:contentDescription="@string/gtranslate"-->
+<!--            android:scaleType="centerCrop" />-->
+<!--    </LinearLayout>-->
+
+    <TextView
+        android:id="@+id/word1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/front"
+        android:gravity="center"
+        android:inputType="text"
+        android:layout_weight="0.4"
+        android:autofillHints="">
+    </TextView>
+
+</LinearLayout>

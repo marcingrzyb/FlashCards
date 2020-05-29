@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
@@ -27,8 +26,8 @@ public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         FlashCard flashCardKt = new FlashCard();
         Bundle bundle = new Bundle();
-        position = position + 1;
-        bundle.putString("message", "dupa: " + position);
+        NoteEntity noteEntity = notes.get(position);
+        bundle.putSerializable("note", noteEntity);
         flashCardKt.setArguments(bundle);
         return flashCardKt;
     }

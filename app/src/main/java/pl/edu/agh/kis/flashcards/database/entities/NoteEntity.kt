@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity
-data class NoteEntity(
+data class NoteEntity (
     @PrimaryKey(autoGenerate = true) val id: Int?,
     @ColumnInfo(name="listId") val listId: Int,
     @ColumnInfo(name = "Word") val word: String,
