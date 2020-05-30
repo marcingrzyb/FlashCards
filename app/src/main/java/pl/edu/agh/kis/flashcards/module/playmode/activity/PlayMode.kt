@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.module.playmode
+package pl.edu.agh.kis.flashcards.module.playmode.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,18 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.NoteListDataBase
-import pl.edu.agh.kis.flashcards.database.dao.SessionDao
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
-import pl.edu.agh.kis.flashcards.database.entity.Session
 import pl.edu.agh.kis.flashcards.database.services.NoteRepository
-import pl.edu.agh.kis.flashcards.module.playmode.service.EventSessionHandler
+import pl.edu.agh.kis.flashcards.module.playmode.service.EventSessionService
 import pl.edu.agh.kis.flashcards.module.playmode.view.FlashCardCollectionAdapter
 import pl.edu.agh.kis.flashcards.module.playmode.view.ViewPagerDisabled
-import java.time.Instant
-import java.util.concurrent.Executors
 
 
-class Learn() : AppCompatActivity() {
+class PlayMode() : AppCompatActivity() {
 
     private var pager: ViewPagerDisabled? = null
     private var flashCardCollectionAdapter: FlashCardCollectionAdapter? = null
@@ -31,18 +27,19 @@ class Learn() : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var eventSessionHandler = EventSessionHandler()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learn)
         var intExtra = getIntent().getIntExtra("id", 0)
         notes = repository.getAllById(intExtra)
-        notes.observe(this, createFlashCardFragments(eventSessionHandler))
+
+        notes.observe(this, createFlashCardFragments())
     }
 
-    private fun createFlashCardFragments(eventSessionHandler: EventSessionHandler): Observer<List<NoteEntity>> {
+    private fun createFlashCardFragments(): Observer<List<NoteEntity>> {
         return Observer { noteLists ->
             noteLists?.let {
                 val size = notes.value!!.size
+                var eventSessionHandler = EventSessionService(size)
                 pager = findViewById(R.id.pager)
                 flashCardCollectionAdapter =
                     FlashCardCollectionAdapter(

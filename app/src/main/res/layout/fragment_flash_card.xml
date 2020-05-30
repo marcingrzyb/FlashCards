@@ -17,7 +17,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/heart_disabled"
-            android:background="@null"/>
+            android:layout_marginLeft="23dp"
+            android:background="@null"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/remeberedLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:layout_marginLeft="42dp"
+            android:gravity="center"
+            android:hint="Remebered"
+            android:inputType="text"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+
+        <CheckBox
+            android:id="@+id/remebered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp" />
+
+
 
     </LinearLayout>
 

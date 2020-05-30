@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.playmode.Learn">
+    tools:context=".module.playmode.activity.PlayMode">
 
     <pl.edu.agh.kis.flashcards.module.playmode.view.ViewPagerDisabled
         android:layout_width="match_parent"

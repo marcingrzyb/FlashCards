@@ -12,15 +12,15 @@ import java.util.List;
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity;
 import pl.edu.agh.kis.flashcards.module.playmode.fragment.FlashCard;
 import pl.edu.agh.kis.flashcards.module.playmode.fragment.SessionSummary;
-import pl.edu.agh.kis.flashcards.module.playmode.service.EventSessionHandler;
+import pl.edu.agh.kis.flashcards.module.playmode.service.EventSessionService;
 
 public class FlashCardCollectionAdapter extends FragmentStatePagerAdapter {
 
     private final List<NoteEntity> notes;
-    private final EventSessionHandler eventSessionHandler;
+    private final EventSessionService eventSessionHandler;
     private SessionSummary sessionSummary;
 
-    public FlashCardCollectionAdapter(@NonNull FragmentManager fm, int behavior, List<NoteEntity> notes, EventSessionHandler eventSessionHandler) {
+    public FlashCardCollectionAdapter(@NonNull FragmentManager fm, int behavior, List<NoteEntity> notes, EventSessionService eventSessionHandler) {
         super(fm, behavior);
         this.notes = notes;
         this.eventSessionHandler = eventSessionHandler;
