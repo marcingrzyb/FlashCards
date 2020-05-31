@@ -38,10 +38,9 @@
 
         <ImageButton
             android:id="@+id/translateButton"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:background="@mipmap/g_translate"
+            android:background="@drawable/g_translate_foreground"
             android:contentDescription="@string/gtranslate"
             android:scaleType="centerCrop" />
     </LinearLayout>
