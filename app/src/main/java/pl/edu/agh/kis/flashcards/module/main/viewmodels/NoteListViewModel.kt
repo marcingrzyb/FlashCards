@@ -14,6 +14,7 @@ import pl.edu.agh.kis.flashcards.database.services.NoteListRepository
 public class NoteListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: NoteListRepository
+
     // Using LiveData and caching what getAlphabetizedWords returns has several benefits:
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
@@ -32,7 +33,13 @@ public class NoteListViewModel(application: Application) : AndroidViewModel(appl
     fun insert(noteListEntity: NoteListEntity) = viewModelScope.launch(IO) {
         repository.addNewNoteList(noteListEntity)
     }
-    fun update(noteListEntity: NoteListEntity,noteEntities: List<NoteEntity>)=viewModelScope.launch(IO) {
-        repository.updateNoteList(noteListEntity,noteEntities)
+
+    fun update(noteListEntity: NoteListEntity, noteEntities: List<NoteEntity>) =
+        viewModelScope.launch(IO) {
+            repository.updateNoteList(noteListEntity, noteEntities)
+        }
+
+    fun delete(noteListEntity: NoteListEntity) = viewModelScope.launch(IO) {
+        repository.deleteNoteListSet(noteListEntity)
     }
 }

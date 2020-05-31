@@ -25,7 +25,7 @@ abstract class NoteListDAO {
 
     @Transaction
     @Delete
-    abstract suspend fun delete(noteListEntity: NoteListEntity,noteEntity:List<NoteEntity>)
+    abstract suspend fun delete(noteListEntity: NoteListEntity)
 
     @Transaction
     @Update

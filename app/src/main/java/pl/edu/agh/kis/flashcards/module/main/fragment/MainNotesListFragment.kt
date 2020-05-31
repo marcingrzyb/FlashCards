@@ -16,16 +16,19 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_new_list_dialog.*
 import kotlinx.android.synthetic.main.fragment_main_notes_list.*
-import pl.edu.agh.kis.flashcards.module.main.activity.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
+import pl.edu.agh.kis.flashcards.module.main.activity.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListAdapterRecycler
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListHolder
 import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteListViewModel
 import java.util.Objects.nonNull
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -39,6 +42,10 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
 
     private var dualPane: Boolean = false
     private var curCheckPosition = 0
+
+    private lateinit var adapter: NoteListAdapterRecycler
+    private var details = fragmentManager?.findFragmentById(R.id.note_list) as? NotesSetFragment
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +70,7 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
         curCheckPosition = savedInstanceState?.getInt("curChoice", 0) ?: 0
 
         val recyclerView = MainNotesRecyclerView
-        val adapter =
+        adapter =
             NoteListAdapterRecycler(
                 activity!!.applicationContext,
                 this
@@ -82,6 +89,8 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             noteLists?.let { adapter.setList(it) }
         })
         AddNewNotesList.setOnClickListener { view?.let { it1 -> basicAlert(it1) } }
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+
         if (dualPane && nonNull(noteListViewModel.allNoteLists.value)) {
             showDetails(curCheckPosition)
         }
@@ -178,37 +187,69 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
 
     private fun showDetails(index: Int) {
         curCheckPosition = index
-        if (dualPane) {
-            var details = fragmentManager?.findFragmentById(R.id.note_list) as? NotesSetFragment
-            details =
-                NotesSetFragment.newInstance(
-                    noteListViewModel
-                        .allNoteLists
-                        .value?.get(
-                        index
-                    )!!.id!!
-                )
+        if (noteListViewModel.allNoteLists.value!!.isNotEmpty() &&
+            noteListViewModel.allNoteLists.value?.size!! > curCheckPosition) {
+            if (dualPane) {
+                details =
+                    NotesSetFragment.newInstance(
+                        noteListViewModel
+                            .allNoteLists
+                            .value?.get(
+                            index
+                        )!!.id!!
+                    )
 
+                fragmentManager?.beginTransaction()?.apply {
+                    replace(R.id.note_list, details!!)
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    commit()
+                }
+
+            } else {
+                val intent = Intent().apply {
+                    setClass(context!!, NoteListDetailsActivity::class.java)
+                    putExtra("index", noteListViewModel.allNoteLists.value?.get(index)!!.id)
+                    putExtra(
+                        "sourceLang",
+                        noteListViewModel.allNoteLists.value?.get(index)!!.baseLanguage
+                    )
+                    putExtra(
+                        "targetLang",
+                        noteListViewModel.allNoteLists.value?.get(index)!!.targetLanguage
+                    )
+                }
+                startActivity(intent)
+            }
+        }
+    }
+
+    var itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
+        object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                deleteNote(noteListViewModel.allNoteLists.value?.get(viewHolder.adapterPosition), viewHolder.adapterPosition)
+            }
+        }
+
+    private fun deleteNote(
+        note: NoteListEntity?,
+        adapterPosition: Int
+    ) {
+        noteListViewModel.delete(note!!)
+        adapter.notifyDataSetChanged()
+        if (curCheckPosition == adapterPosition){
             fragmentManager?.beginTransaction()?.apply {
-                replace(R.id.note_list, details)
+                remove(details!!)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 commit()
             }
-
-        } else {
-            val intent = Intent().apply {
-                setClass(context!!, NoteListDetailsActivity::class.java)
-                putExtra("index", noteListViewModel.allNoteLists.value?.get(index)!!.id)
-                putExtra(
-                    "sourceLang",
-                    noteListViewModel.allNoteLists.value?.get(index)!!.baseLanguage
-                )
-                putExtra(
-                    "targetLang",
-                    noteListViewModel.allNoteLists.value?.get(index)!!.targetLanguage
-                )
-            }
-            startActivity(intent)
         }
     }
 }

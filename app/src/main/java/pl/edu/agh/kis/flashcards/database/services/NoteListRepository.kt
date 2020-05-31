@@ -11,7 +11,12 @@ class NoteListRepository(private val noteListDAO: NoteListDAO) {
     suspend fun addNewNoteList(noteListEntity: NoteListEntity){
         noteListDAO.insert(noteListEntity)
     }
+
     suspend fun updateNoteList(noteListEntity: NoteListEntity,noteEntity: List<NoteEntity>){
         noteListDAO.update(noteListEntity,noteEntity)
+    }
+
+    suspend fun deleteNoteListSet(noteListEntity: NoteListEntity) {
+        noteListDAO.delete(noteListEntity)
     }
 }
