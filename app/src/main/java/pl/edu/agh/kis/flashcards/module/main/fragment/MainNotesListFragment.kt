@@ -25,6 +25,7 @@ import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListAdapterRecycler
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListHolder
 import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteListViewModel
+import java.util.Objects.nonNull
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -61,9 +62,6 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
         dualPane = detailsFrame?.visibility == View.VISIBLE
         curCheckPosition = savedInstanceState?.getInt("curChoice", 0) ?: 0
 
-        if (dualPane) {
-            showDetails(curCheckPosition)
-        }
         val recyclerView = MainNotesRecyclerView
         val adapter =
             NoteListAdapterRecycler(
@@ -84,6 +82,9 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             noteLists?.let { adapter.setList(it) }
         })
         AddNewNotesList.setOnClickListener { view?.let { it1 -> basicAlert(it1) } }
+        if (dualPane && nonNull(noteListViewModel.allNoteLists.value)) {
+            showDetails(curCheckPosition)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -181,7 +182,9 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             var details = fragmentManager?.findFragmentById(R.id.note_list) as? NotesSetFragment
             details =
                 NotesSetFragment.newInstance(
-                    noteListViewModel.allNoteLists.value?.get(
+                    noteListViewModel
+                        .allNoteLists
+                        .value?.get(
                         index
                     )!!.id!!
                 )
