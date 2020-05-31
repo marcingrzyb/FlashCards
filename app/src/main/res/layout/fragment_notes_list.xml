@@ -13,18 +13,20 @@
         android:id="@+id/addNewNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="false"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:layout_toStartOf="@+id/play"
         android:text="@string/new_note"
+        android:textAlignment="center"
         app:icon="@drawable/ic_plus_foreground" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/play"
-        android:layout_width="191dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -32,10 +34,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/play"
-        android:textAlignment="center"
-        app:icon="@drawable/ic_plus_foreground" />/>
+        app:icon="@drawable/ic_play" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notesSetRecyclerView"
