@@ -35,5 +35,7 @@ class NoteAdapter internal constructor(
 
     interface OnNoteSetListener {
         fun onClick(noteHolder: NoteHolder, position: Int)
+        fun onLongClick(noteListHolder: NoteHolder, position: Int)
+
     }
 }

@@ -18,5 +18,8 @@ class NoteRepository(private val noteDAO: NoteDAO) {
     fun delete(noteEntity: NoteEntity){
         noteDAO.delete(noteEntity)
     }
+    fun update(noteEntity: NoteEntity){
+        noteDAO.update(noteEntity)
+    }
 
 }

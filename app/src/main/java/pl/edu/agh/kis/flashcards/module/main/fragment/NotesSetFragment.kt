@@ -10,11 +10,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.add_new_list_dialog.*
 import kotlinx.android.synthetic.main.add_note_dialog.*
 import kotlinx.android.synthetic.main.fragment_notes_list.*
 import pl.edu.agh.kis.flashcards.module.playmode.activity.PlayMode
@@ -24,6 +28,7 @@ import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 import pl.edu.agh.kis.flashcards.module.main.view.NoteAdapter
 import pl.edu.agh.kis.flashcards.module.main.view.NoteHolder
 import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteViewModel
+import pl.edu.agh.kis.flashcards.module.playmode.fragment.operation.OperationType
 import kotlin.properties.Delegates
 
 private lateinit var noteViewModel: NoteViewModel
@@ -43,6 +48,8 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
         arguments?.getString("sourceLang", "") ?: ""
     }
 
+    private lateinit var adapter: NoteAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,17 +68,15 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
             || activity!!.findViewById<View>(R.id.note_lists_list) == null
         ) {
             //prevent error on rotating back
-            addNewNote.setOnClickListener { view?.let { it1 -> addNote(it1) } }
+            addNewNote.setOnClickListener { view?.let { it1 -> addNote(OperationType.CREATE) } }
             play.setOnClickListener { view?.let { it1 -> playFlashCards(it1) } }
 
             val recyclerView = notesSetRecyclerView
-            val adapter =
-                NoteAdapter(
-                    activity!!.applicationContext,
-                    this
-                )
+            adapter = NoteAdapter(activity!!.applicationContext, this)
+
             recyclerView.adapter = adapter
             recyclerView.layoutManager = GridLayoutManager(activity!!.applicationContext, 2)
+            ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView)
 
             NoteViewModelFactory.setApplication(
                 this.activity!!.application
@@ -98,20 +103,30 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
         startActivity(intent)
     }
 
-    fun addNote(view: View) {
+    private fun addNote(operationType: OperationType){
+        addNote(operationType, null)
+    }
+
+    private fun addNote(operationType: OperationType, noteEntity: NoteEntity?) {
         val mDialogView =
             LayoutInflater.from(activity!!).inflate(R.layout.add_note_dialog, null)
         val builder = AlertDialog.Builder(activity!!)
         with(builder) {
             setView(mDialogView)
-            setTitle("Add note")
+            when (operationType) {
+                OperationType.CREATE -> setTitle("Add note")
+                OperationType.UPDATE -> setTitle("Edit note")
+            }
         }
 
         val dialog = builder.create()
         dialog.show()
 
         with(dialog) {
-            add_button.isEnabled = false
+            if (operationType == OperationType.UPDATE) {
+                fillCurrentSetValues(word, translatedWord, noteEntity!!)
+            }
+            add_button.isEnabled = operationType != OperationType.CREATE
             cancelButton.setOnClickListener {
                 dismiss()
             }
@@ -122,20 +137,29 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
                     sourceLang,
                     targetLang
                 )
-                Log.d("source", sourceLang)
-                Log.d("target", targetLang)
             }
             add_button.setOnClickListener {
-                noteViewModel.insert(
-                    NoteEntity(
-                        null,
-                        shownIndex,
-                        word.text.toString(),
-                        translatedWord.text.toString(),
-                        false,
-                        false
-                    )
-                )
+                when (operationType){
+                    OperationType.CREATE -> {
+                        noteViewModel.insert(
+                            NoteEntity(
+                                null,
+                                shownIndex,
+                                word.text.toString(),
+                                translatedWord.text.toString(),
+                                false,
+                                false
+                            )
+                        )
+                    }
+                    OperationType.UPDATE -> {
+                        noteEntity!!.translatedWord = translatedWord.text.toString()
+                        noteEntity!!.word = word.text.toString()
+                        noteViewModel.update(noteEntity)
+                    }
+
+                }
+
                 dismiss()
             }
             var firstNotEmpty = false
@@ -179,6 +203,15 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
         }
     }
 
+    private fun fillCurrentSetValues(
+        word: EditText,
+        translation: EditText,
+        note: NoteEntity
+    ) {
+        word.setText(note.word)
+        translation.setText(note.translatedWord)
+    }
+
     companion object {
         /**
          * Create a new instance of DetailsFragment, initialized to
@@ -199,6 +232,34 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
 
     override fun onClick(noteHolder: NoteHolder, position: Int) {
         Log.d("SET", "Note clicked")
+    }
+
+    override fun onLongClick(noteListHolder: NoteHolder, position: Int) {
+        Log.d("SET", "long click")
+        val note = noteViewModel.notes.value?.get(position)!!
+        addNote(OperationType.UPDATE, note)
+    }
+
+    var itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
+        object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                deleteNote(
+                    noteViewModel.notes.value?.get(viewHolder.adapterPosition)
+                )
+            }
+        }
+
+    private fun deleteNote(note: NoteEntity?) {
+        noteViewModel.delete(note!!)
+        adapter.notifyDataSetChanged()
     }
 
 

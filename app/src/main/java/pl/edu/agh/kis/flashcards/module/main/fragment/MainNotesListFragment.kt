@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,7 +94,7 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
         })
         AddNewNotesList.setOnClickListener { view?.let { operationDialog(OperationType.CREATE) } }
 
-        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView)
 
         if (dualPane && nonNull(noteListViewModel.allNoteLists.value)) {
             showDetails(curCheckPosition)
@@ -280,7 +279,7 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
         }
     }
 
-    private fun deleteNote(
+    private fun deleteSet(
         note: NoteListEntity?,
         adapterPosition: Int
     ) {
@@ -307,7 +306,7 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                deleteNote(
+                deleteSet(
                     noteListViewModel.allNoteLists.value?.get(viewHolder.adapterPosition),
                     viewHolder.adapterPosition
                 )

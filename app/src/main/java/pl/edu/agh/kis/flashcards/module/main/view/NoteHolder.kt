@@ -8,9 +8,9 @@ import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 
 class NoteHolder(
     view: View,
-    private val NoteListener: NoteAdapter.OnNoteSetListener
+    private val noteListener: NoteAdapter.OnNoteSetListener
 ) :
-    RecyclerView.ViewHolder(view), View.OnClickListener {
+    RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener {
 
     private var word: TextView? = null
     private var translatedWord: TextView? = null
@@ -24,11 +24,15 @@ class NoteHolder(
         word?.text = noteEntity.word
         translatedWord?.text = noteEntity.translatedWord
         itemView.setOnClickListener(this)
+        itemView.setOnLongClickListener(this)
     }
 
     override fun onClick(itemView: View?) {
-        NoteListener.onClick(this, adapterPosition)
+         noteListener.onClick(this, adapterPosition)
     }
 
-
+    override fun onLongClick(itemView: View?): Boolean {
+        noteListener.onLongClick(this, adapterPosition)
+        return true
+    }
 }

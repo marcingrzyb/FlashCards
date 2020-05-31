@@ -9,8 +9,8 @@ import java.io.Serializable
 data class NoteEntity (
     @PrimaryKey(autoGenerate = true) val id: Int?,
     @ColumnInfo(name="listId") val listId: Int,
-    @ColumnInfo(name = "Word") val word: String,
-    @ColumnInfo(name = "TranslatedWord") val translatedWord: String?,
+    @ColumnInfo(name = "Word") var word: String,
+    @ColumnInfo(name = "TranslatedWord") var translatedWord: String?,
     @ColumnInfo(name = "favourite") var favourite: Boolean?,
     @ColumnInfo(name = "remebered") var remembered: Boolean?
 ):Serializable
