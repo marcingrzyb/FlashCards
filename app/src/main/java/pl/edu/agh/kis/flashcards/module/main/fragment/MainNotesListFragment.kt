@@ -172,7 +172,6 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
 
     override fun onClick(noteListHolder: NoteListHolder, position: Int) {
         curCheckPosition = position
-        Log.d("CLICK", curCheckPosition.toString())
         showDetails(position)
     }
 
@@ -186,18 +185,16 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
                         index
                     )!!.id!!
                 )
-            Log.d("BBB", noteListViewModel.allNoteLists.value?.get(index)!!.id.toString())
 
             fragmentManager?.beginTransaction()?.apply {
                 replace(R.id.note_list, details)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 commit()
             }
-            
+
         } else {
             val intent = Intent().apply {
                 setClass(context!!, NoteListDetailsActivity::class.java)
-                Log.d("AAA", noteListViewModel.allNoteLists.value?.get(index)!!.id.toString())
                 putExtra("index", noteListViewModel.allNoteLists.value?.get(index)!!.id)
                 putExtra(
                     "sourceLang",
