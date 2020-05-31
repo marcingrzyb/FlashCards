@@ -39,6 +39,11 @@ public class NoteListViewModel(application: Application) : AndroidViewModel(appl
             repository.updateNoteList(noteListEntity, noteEntities)
         }
 
+    fun update(noteListEntity: NoteListEntity) =
+        viewModelScope.launch(IO) {
+            repository.updateNoteList(noteListEntity)
+        }
+
     fun delete(noteListEntity: NoteListEntity) = viewModelScope.launch(IO) {
         repository.deleteNoteListSet(noteListEntity)
     }

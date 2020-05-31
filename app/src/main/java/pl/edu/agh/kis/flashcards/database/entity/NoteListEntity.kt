@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class NoteListEntity(
     @PrimaryKey(autoGenerate = true) val id: Int?,
-    @ColumnInfo(name="listName") val listName: String?,
-    @ColumnInfo(name = "baseLanguage") val baseLanguage: String?,
-    @ColumnInfo(name = "targetLanguage") val targetLanguage: String?
+    @ColumnInfo(name="listName") var listName: String?,
+    @ColumnInfo(name = "baseLanguage") var baseLanguage: String?,
+    @ColumnInfo(name = "targetLanguage") var targetLanguage: String?
 )

@@ -1,5 +1,6 @@
 package pl.edu.agh.kis.flashcards.module.main.view
 
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +11,7 @@ class NoteListHolder(
     view: View,
     private val onNoteSetListener: NoteListAdapterRecycler.OnNoteSetListener
 ) :
-    RecyclerView.ViewHolder(view), View.OnClickListener {
+    RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener {
 
     private var listName: TextView? = null
     private var listBaseLang: TextView? = null
@@ -27,10 +28,16 @@ class NoteListHolder(
         listBaseLang?.text = noteListEntity.baseLanguage
         listTargetLang?.text = noteListEntity.targetLanguage
         itemView.setOnClickListener(this)
+        itemView.setOnLongClickListener(this)
     }
 
     override fun onClick(itemView: View?) {
         onNoteSetListener.onClick(this, adapterPosition)
+    }
+
+    override fun onLongClick(itemView: View?): Boolean {
+        onNoteSetListener.onLongClick(this, adapterPosition)
+        return true
     }
 
 }

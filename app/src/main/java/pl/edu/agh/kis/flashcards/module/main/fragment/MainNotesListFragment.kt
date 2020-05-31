@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
@@ -27,6 +29,7 @@ import pl.edu.agh.kis.flashcards.module.main.activity.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListAdapterRecycler
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListHolder
 import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteListViewModel
+import pl.edu.agh.kis.flashcards.module.playmode.fragment.operation.OperationType
 import java.util.Objects.nonNull
 
 
@@ -36,6 +39,8 @@ private const val ARG_PARAM2 = "param2"
 private lateinit var noteListViewModel: NoteListViewModel
 
 class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListener {
+
+    private val TAG: String = "MAIN_NOTES_LIST_FR"
 
     private var param1: String? = null
     private var param2: String? = null
@@ -88,7 +93,8 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             // Update the cached copy of the words in the adapter.
             noteLists?.let { adapter.setList(it) }
         })
-        AddNewNotesList.setOnClickListener { view?.let { it1 -> basicAlert(it1) } }
+        AddNewNotesList.setOnClickListener { view?.let { operationDialog(OperationType.CREATE) } }
+
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
         if (dualPane && nonNull(noteListViewModel.allNoteLists.value)) {
@@ -122,20 +128,31 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             }
     }
 
-    fun basicAlert(view: View) {
+    private fun operationDialog(operationType: OperationType) {
+        operationDialog(operationType, null)
+    }
+
+    private fun operationDialog(operationType: OperationType, noteSet: NoteListEntity?) {
         val mDialogView =
             LayoutInflater.from(activity!!).inflate(R.layout.add_new_list_dialog, null)
         val builder = AlertDialog.Builder(activity!!)
 
         with(builder) {
             setView(mDialogView)
-            setTitle("Create new FlashNotes list!")
+            when (operationType) {
+                OperationType.CREATE -> {
+                    setTitle("Create new FlashNotes list!")
+                }
+                OperationType.UPDATE -> {
+                    setTitle("Edit existing list info")
+                }
+            }
         }
 
         val dialog = builder.create()
         dialog.show()
 
-        ArrayAdapter.createFromResource(
+        val arrayAdapter = ArrayAdapter.createFromResource(
             activity!!,
             R.array.languages,
             android.R.layout.simple_spinner_item
@@ -145,19 +162,29 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             dialog.targetLangSpinner.adapter = adapter
         }
 
-
         with(dialog) {
+            if (operationType == OperationType.UPDATE) {
+                fillCurrentSetValues(dialog, arrayAdapter, noteSet!!)
+                editText1.setText(noteSet.listName)
+            }
             cancel_button.setOnClickListener { dialog.dismiss() }
-            confirm_button.isEnabled = false
+            confirm_button.isEnabled = operationType != OperationType.CREATE
             confirm_button.setOnClickListener {
-                noteListViewModel.insert(
-                    NoteListEntity(
-                        null,
-                        editText1.text.toString(),
-                        baseLangSpinner.selectedItem.toString(),
-                        targetLangSpinner.selectedItem.toString()
-                    )
-                )
+                when (operationType) {
+                    OperationType.CREATE -> {
+                        noteListViewModel.insert(
+                            NoteListEntity(
+                                null, editText1.text.toString(),
+                                baseLangSpinner.selectedItem.toString(),
+                                targetLangSpinner.selectedItem.toString()
+                            )
+                        )
+                    }
+
+                    OperationType.UPDATE -> {
+                        updateSetInfo(noteSet!!, baseLangSpinner, targetLangSpinner, editText1)
+                    }
+                }
                 dismiss()
             }
             editText1.addTextChangedListener(object : TextWatcher {
@@ -185,43 +212,89 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
         showDetails(position)
     }
 
+    override fun onLongClick(noteListHolder: NoteListHolder, position: Int) {
+        val noteSet = noteListViewModel.allNoteLists.value?.get(position)!!
+        operationDialog(OperationType.UPDATE, noteSet)
+    }
+
+    private fun updateSetInfo(
+        noteSet: NoteListEntity,
+        baseLangSpinner: Spinner,
+        targetLangSpinner: Spinner,
+        editText1: EditText
+    ) {
+        noteSet.baseLanguage = baseLangSpinner.selectedItem.toString()
+        noteSet.targetLanguage = targetLangSpinner.selectedItem.toString()
+        noteSet.listName = editText1.text.toString()
+        noteListViewModel.update(noteSet)
+    }
+
+    private fun fillCurrentSetValues(
+        dialog: AlertDialog,
+        adapter: ArrayAdapter<CharSequence>,
+        noteSet: NoteListEntity
+    ) {
+        dialog.baseLangSpinner.setSelection(adapter.getPosition(noteSet.baseLanguage))
+        dialog.targetLangSpinner.setSelection(adapter.getPosition(noteSet.targetLanguage))
+    }
+
     private fun showDetails(index: Int) {
         curCheckPosition = index
         if (noteListViewModel.allNoteLists.value!!.isNotEmpty() &&
-            noteListViewModel.allNoteLists.value?.size!! > curCheckPosition) {
+            noteListViewModel.allNoteLists.value?.size!! > curCheckPosition
+        ) {
             if (dualPane) {
-                details =
-                    NotesSetFragment.newInstance(
-                        noteListViewModel
-                            .allNoteLists
-                            .value?.get(
-                            index
-                        )!!.id!!
-                    )
-
-                fragmentManager?.beginTransaction()?.apply {
-                    replace(R.id.note_list, details!!)
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    commit()
-                }
-
+                updateFragmentNextToList(index)
             } else {
-                val intent = Intent().apply {
-                    setClass(context!!, NoteListDetailsActivity::class.java)
-                    putExtra("index", noteListViewModel.allNoteLists.value?.get(index)!!.id)
-                    putExtra(
-                        "sourceLang",
-                        noteListViewModel.allNoteLists.value?.get(index)!!.baseLanguage
-                    )
-                    putExtra(
-                        "targetLang",
-                        noteListViewModel.allNoteLists.value?.get(index)!!.targetLanguage
-                    )
-                }
-                startActivity(intent)
+                startSetListActivity(index)
             }
         }
     }
+
+    private fun startSetListActivity(index: Int) {
+        val intent = Intent().apply {
+            setClass(context!!, NoteListDetailsActivity::class.java)
+            putExtra("index", noteListViewModel.allNoteLists.value?.get(index)!!.id)
+            putExtra(
+                "sourceLang",
+                noteListViewModel.allNoteLists.value?.get(index)!!.baseLanguage
+            )
+            putExtra(
+                "targetLang",
+                noteListViewModel.allNoteLists.value?.get(index)!!.targetLanguage
+            )
+        }
+        startActivity(intent)
+    }
+
+    private fun updateFragmentNextToList(index: Int) {
+        details =
+            NotesSetFragment.newInstance(
+                noteListViewModel.allNoteLists.value?.get(index)!!.id!!
+            )
+
+        fragmentManager?.beginTransaction()?.apply {
+            replace(R.id.note_list, details!!)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            commit()
+        }
+    }
+
+    private fun deleteNote(
+        note: NoteListEntity?,
+        adapterPosition: Int
+    ) {
+        noteListViewModel.delete(note!!)
+        adapter.notifyDataSetChanged()
+        if (curCheckPosition == adapterPosition && dualPane) {
+            fragmentManager?.beginTransaction()?.apply {
+                remove(details!!)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                commit()
+            }
+        }
+    }
+
 
     var itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
         object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -234,24 +307,12 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                deleteNote(noteListViewModel.allNoteLists.value?.get(viewHolder.adapterPosition), viewHolder.adapterPosition)
+                deleteNote(
+                    noteListViewModel.allNoteLists.value?.get(viewHolder.adapterPosition),
+                    viewHolder.adapterPosition
+                )
             }
         }
-
-    private fun deleteNote(
-        note: NoteListEntity?,
-        adapterPosition: Int
-    ) {
-        noteListViewModel.delete(note!!)
-        adapter.notifyDataSetChanged()
-        if (curCheckPosition == adapterPosition){
-            fragmentManager?.beginTransaction()?.apply {
-                remove(details!!)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                commit()
-            }
-        }
-    }
 }
 
 

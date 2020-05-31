@@ -35,5 +35,6 @@ class NoteListAdapterRecycler internal constructor(
 
     interface OnNoteSetListener {
         fun onClick(noteListHolder: NoteListHolder, position: Int)
+        fun onLongClick(noteListHolder: NoteListHolder, position: Int)
     }
 }
