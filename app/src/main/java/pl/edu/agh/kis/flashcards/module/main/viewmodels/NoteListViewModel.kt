@@ -11,7 +11,7 @@ import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
 import pl.edu.agh.kis.flashcards.database.services.NoteListRepository
 
-public class NoteListViewModel(application: Application) : AndroidViewModel(application) {
+class NoteListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: NoteListRepository
 
@@ -47,4 +47,5 @@ public class NoteListViewModel(application: Application) : AndroidViewModel(appl
     fun delete(noteListEntity: NoteListEntity) = viewModelScope.launch(IO) {
         repository.deleteNoteListSet(noteListEntity)
     }
+
 }

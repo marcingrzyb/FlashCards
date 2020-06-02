@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import pl.edu.agh.kis.flashcards.database.entity.Session
+import pl.edu.agh.kis.flashcards.database.entity.SessionEntity
 
 @Dao
 interface SessionDao {
 
-    @Query("SELECT * FROM Session order by id desc")
-    fun loadLast(): Session
+    @Query("SELECT * FROM SessionEntity order by id desc")
+    fun loadLast(): SessionEntity
 
     @Insert
-    fun insert(session: Session): Long
+    fun insert(sessionEntity: SessionEntity): Long
 
     @Delete
-    fun update(session: Session)
+    fun update(sessionEntity: SessionEntity)
 
 }

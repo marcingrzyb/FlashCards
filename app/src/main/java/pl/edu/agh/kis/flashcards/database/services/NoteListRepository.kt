@@ -6,6 +6,7 @@ import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
 
 class NoteListRepository(private val noteListDAO: NoteListDAO) {
+
     val allNoteLists:LiveData<List<NoteListEntity>> = noteListDAO.getAll()
 
     suspend fun addNewNoteList(noteListEntity: NoteListEntity){

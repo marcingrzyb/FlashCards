@@ -9,9 +9,9 @@ import pl.edu.agh.kis.flashcards.database.dao.NoteListDAO
 import pl.edu.agh.kis.flashcards.database.dao.SessionDao
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
-import pl.edu.agh.kis.flashcards.database.entity.Session
+import pl.edu.agh.kis.flashcards.database.entity.SessionEntity
 
-@Database(entities = arrayOf(NoteListEntity::class, NoteEntity::class, Session::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(NoteListEntity::class, NoteEntity::class, SessionEntity::class), version = 1, exportSchema = false)
 abstract class NoteListDataBase : RoomDatabase() {
 
     abstract fun noteListDAO(): NoteListDAO

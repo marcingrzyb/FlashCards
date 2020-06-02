@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.add_new_list_dialog.*
 import kotlinx.android.synthetic.main.add_note_dialog.*
 import kotlinx.android.synthetic.main.fragment_notes_list.*
 import pl.edu.agh.kis.flashcards.module.playmode.activity.PlayMode
@@ -28,7 +27,7 @@ import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 import pl.edu.agh.kis.flashcards.module.main.view.NoteAdapter
 import pl.edu.agh.kis.flashcards.module.main.view.NoteHolder
 import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteViewModel
-import pl.edu.agh.kis.flashcards.module.playmode.fragment.operation.OperationType
+import pl.edu.agh.kis.flashcards.module.main.fragment.operation.OperationType
 import kotlin.properties.Delegates
 
 private lateinit var noteViewModel: NoteViewModel

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Session(
+data class SessionEntity(
     @PrimaryKey(autoGenerate = true) val id: Int?,
     @ColumnInfo(name = "startTime") val startTime: Long?,
     @ColumnInfo(name = "endTime") val endTime: Long?

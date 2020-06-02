@@ -28,7 +28,7 @@ import pl.edu.agh.kis.flashcards.module.main.activity.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListAdapterRecycler
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListHolder
 import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteListViewModel
-import pl.edu.agh.kis.flashcards.module.playmode.fragment.operation.OperationType
+import pl.edu.agh.kis.flashcards.module.main.fragment.operation.OperationType
 import java.util.Objects.nonNull
 
 
