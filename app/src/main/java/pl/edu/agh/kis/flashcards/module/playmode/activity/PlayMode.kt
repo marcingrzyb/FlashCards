@@ -26,8 +26,6 @@ class PlayMode() : AppCompatActivity() {
     private val repository: NoteRepository
     private lateinit var noteListViewModel: PlayModeViewModel
 
-    private lateinit var notes: LiveData<List<Int>>
-
     init {
         val noteDao = NoteListDataBase.getDatabase(this).noteDao()
         repository = NoteRepository(noteDao)
@@ -38,7 +36,6 @@ class PlayMode() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learn)
         var intExtra = getIntent().getIntExtra("id", 0)
-        notes = repository.loadIds(intExtra)
 
         PlayModeViewModelFactory.setApplication(application)
         noteListViewModel = ViewModelProvider(
@@ -61,6 +58,18 @@ class PlayMode() : AppCompatActivity() {
                         eventSessionHandler
                     )
                 pager!!.adapter = flashCardCollectionAdapter
+
+                var doppelgangerPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        if (position == allById.size) {
+                            flashCardCollectionAdapter!!.processData()
+                            pager!!.setUserInputEnabled(false);
+                        }
+                    }
+                }
+
+                pager!!.registerOnPageChangeCallback(doppelgangerPageChangeCallback)
+
             }
 
             override fun doInBackground(vararg params: Any?) {
@@ -68,6 +77,9 @@ class PlayMode() : AppCompatActivity() {
             }
 
         }.execute()
+
+
+
 
     }
 

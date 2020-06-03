@@ -29,6 +29,7 @@ public class FlashCardPlayModeAdapter extends FragmentStateAdapter {
 
     @NonNull
     @Override
+    //TODO: move eventSession to viewmodel
     public Fragment createFragment(int position) {
         Fragment fragment;
         if (position != notes.size()) {
@@ -42,6 +43,10 @@ public class FlashCardPlayModeAdapter extends FragmentStateAdapter {
             return sessionSummary;
         }
         return fragment;
+    }
+
+    public void processData() {
+        sessionSummary.processData();
     }
 
     @Override

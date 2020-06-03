@@ -18,9 +18,6 @@ class PlayModeViewModel(application: Application) : AndroidViewModel(application
     private val noteListRepository: NoteListRepository
     private val sessionRepository: SessionRepository
 
-    lateinit var allNoteLists: List<NoteEntity>
-
-
     init {
         val database = NoteListDataBase.getDatabase(application)
         noteRepository = NoteRepository(database.noteDao())
@@ -29,23 +26,9 @@ class PlayModeViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-    fun get(id: Int) =
-        viewModelScope.launch(Dispatchers.IO) {
-            noteRepository.get(id)
-        }
-
     fun update(noteEntity: NoteEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             noteRepository.update(noteEntity)
         }
-//
-//    fun update(noteListEntity: NoteListEntity) =
-//        viewModelScope.launch(Dispatchers.IO) {
-//            repository.updateNoteList(noteListEntity)
-//        }
-//
-//    fun delete(noteListEntity: NoteListEntity) = viewModelScope.launch(Dispatchers.IO) {
-//        repository.deleteNoteListSet(noteListEntity)
-//    }
 
 }
