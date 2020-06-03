@@ -14,7 +14,7 @@ class NoteAdapter internal constructor(
 
     private var noteEnitites = emptyList<NoteEntity>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
-        val itemView = inflater.inflate(R.layout.list_item, parent, false)
+        val itemView = inflater.inflate(R.layout.note_item, parent, false)
         return NoteHolder(
             itemView,
             onNoteSetListener

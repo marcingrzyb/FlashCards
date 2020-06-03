@@ -3,6 +3,7 @@ package pl.edu.agh.kis.flashcards.module.main.fragment
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -165,6 +166,21 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
                 fillCurrentSetValues(dialog, arrayAdapter, noteSet!!)
                 editText1.setText(noteSet.listName)
             }
+            val langs=resources.getStringArray(R.array.languages)
+            if(langs.contains<String>(Resources.getSystem().getConfiguration().locales[0].language)) {
+                baseLangSpinner.setSelection(
+                    langs.indexOf(
+                        Resources.getSystem().getConfiguration().locales[0].language
+                    )
+                )
+            }else{
+                baseLangSpinner.setSelection(
+                    langs.indexOf(
+                        "en"
+                    )
+                )
+            }
+
             cancel_button.setOnClickListener { dialog.dismiss() }
             confirm_button.isEnabled = operationType != OperationType.CREATE
             confirm_button.setOnClickListener {
