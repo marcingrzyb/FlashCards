@@ -37,7 +37,8 @@ class PlayMode() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learn)
         var intExtra = getIntent().getIntExtra("id", 0)
-
+        var sourceLang = intent.getStringExtra("sourceLang")
+        var targetLang = intent.getStringExtra("targetLang")
         PlayModeViewModelFactory.setApplication(application)
         noteListViewModel = ViewModelProvider(
             this,
@@ -58,6 +59,8 @@ class PlayMode() : AppCompatActivity() {
                         allById,
                         eventSessionHandler
                     )
+                flashCardCollectionAdapter!!.setSourceLang(sourceLang)
+                flashCardCollectionAdapter!!.setTargetLang(targetLang)
                 pager!!.adapter = flashCardCollectionAdapter
 
                 var doppelgangerPageChangeCallback = onPageChangeCallback(allById)

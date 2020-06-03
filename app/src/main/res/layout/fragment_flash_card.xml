@@ -28,7 +28,7 @@
             android:autofillHints=""
             android:layout_marginLeft="42dp"
             android:gravity="center"
-            android:hint="Remebered"
+            android:hint="Remembered"
             android:inputType="text"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -36,10 +36,18 @@
 
         <CheckBox
             android:id="@+id/remebered"
-            android:layout_width="wrap_content"
+            android:layout_width="126dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp" />
 
+        <ImageButton
+            android:id="@+id/speakButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="23dp"
+            android:background="@null"
+            android:src="@drawable/ic_speak" />
 
 
     </LinearLayout>
@@ -53,9 +61,20 @@
         android:ems="10"
         android:gravity="center"
         android:hint="@string/front"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:textSize="36sp"
+        android:scrollHorizontally="false"
         android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/speakButton1"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center|right"
+        android:background="@null"
+        android:src="@drawable/ic_speak"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/word1"
@@ -66,7 +85,8 @@
         android:ems="10"
         android:gravity="center"
         android:hint="@string/front"
-        android:inputType="text"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
         android:textSize="36sp" />
 
 </LinearLayout>

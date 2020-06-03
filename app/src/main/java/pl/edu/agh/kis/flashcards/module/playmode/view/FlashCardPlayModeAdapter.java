@@ -21,6 +21,10 @@ public class FlashCardPlayModeAdapter extends FragmentStateAdapter {
     private final EventSessionService eventSessionHandler;
     private SessionSummary sessionSummary;
 
+
+    private String sourceLang;
+    private String targetLang;
+
     public FlashCardPlayModeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, List<NoteEntity> notes, EventSessionService eventSessionHandler) {
         super(fragmentManager, lifecycle);
         this.notes = notes;
@@ -36,6 +40,8 @@ public class FlashCardPlayModeAdapter extends FragmentStateAdapter {
             Bundle bundle = new Bundle();
             NoteEntity note = notes.get(position);
             bundle.putSerializable("note", note);
+            bundle.putString("sourceLang", sourceLang);
+            bundle.putString("targetLang", targetLang);
             fragment.setArguments(bundle);
         } else {
             sessionSummary = new SessionSummary(eventSessionHandler);
@@ -55,4 +61,11 @@ public class FlashCardPlayModeAdapter extends FragmentStateAdapter {
                 : notes.size() + 1;
     }
 
+    public void setSourceLang(String sourceLang) {
+        this.sourceLang = sourceLang;
+    }
+
+    public void setTargetLang(String targetLang) {
+        this.targetLang = targetLang;
+    }
 }

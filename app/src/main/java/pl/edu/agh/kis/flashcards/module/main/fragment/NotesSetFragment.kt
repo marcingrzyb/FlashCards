@@ -98,6 +98,8 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
         val intent = Intent(activity, PlayMode::class.java)
         val b = Bundle()
         b.putInt("id", shownIndex) //Your id
+        b.putString("sourceLang", sourceLang)
+        b.putString("targetLang", targetLang)
         intent.putExtras(b)
         startActivity(intent)
     }
