@@ -33,6 +33,7 @@ class PlayMode() : AppCompatActivity() {
         repository = NoteRepository(noteDao)
     }
 
+    @SuppressLint("StaticFieldLeak")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learn)
@@ -45,14 +46,9 @@ class PlayMode() : AppCompatActivity() {
             PlayModeViewModelFactory
         ).get(PlayModeViewModel::class.java)
 
-        noteListViewModel.viewModelScope.launch {
-
-        }
-
         object : AsyncTask<Any?, Any?, Any?>() {
 
             var allById = Collections.emptyList<NoteEntity>()
-
 
             override fun onPostExecute(result: Any?) {
                 var eventSessionHandler = EventSessionService(allById.size)
@@ -72,7 +68,6 @@ class PlayMode() : AppCompatActivity() {
             }
 
         }.execute()
-
 
     }
 

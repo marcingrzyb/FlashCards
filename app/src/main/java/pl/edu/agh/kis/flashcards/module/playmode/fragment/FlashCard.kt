@@ -1,6 +1,5 @@
 package pl.edu.agh.kis.flashcards.module.playmode.fragment
 
-import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
@@ -19,12 +16,13 @@ import pl.edu.agh.kis.flashcards.module.playmode.service.EventSessionService
 import pl.edu.agh.kis.flashcards.module.playmode.service.EventType
 import pl.edu.agh.kis.flashcards.module.playmode.viewmodel.PlayModeViewModel
 import java.io.Serializable
-import kotlin.properties.Delegates
 
 class FlashCard(private var eventSessionHandler: EventSessionService) : Fragment() {
 
     private var favouriteChange: Boolean = false
     private var rememberChange: Boolean = false
+    private lateinit var favourite: ImageButton
+    private lateinit var remembered: CheckBox
     private lateinit var noteListViewModel: PlayModeViewModel
 
     val entity: Serializable by lazy {
@@ -50,26 +48,33 @@ class FlashCard(private var eventSessionHandler: EventSessionService) : Fragment
         var value: NoteEntity = entity as NoteEntity;
         val txtView: TextView = inflate.findViewById(R.id.word)
         val hiddenContent: TextView = inflate.findViewById(R.id.word1)
-        val favourite: ImageButton = inflate.findViewById(R.id.favouriteButton)
-        val remembered: CheckBox = inflate.findViewById(R.id.remebered)
-
+        favourite = inflate.findViewById(R.id.favouriteButton)
+        remembered = inflate.findViewById(R.id.remebered)
 
 
         txtView.setText(value.word)
         hiddenContent.setText("click")
-        processImage(value.favourite, favourite)
+        initFragment(value)
 
         hiddenContent.setOnClickListener { hiddenContent.setText(value.translatedWord) }
-        remembered.setOnClickListener { rememberListener(value, remembered) }
-        favourite.setOnClickListener { favouriteListener(value, favourite) }
+        remembered.setOnClickListener { rememberListener(value) }
+        favourite.setOnClickListener { favouriteListener(value) }
 
         return inflate
     }
 
-    private fun rememberListener(value: NoteEntity, remembered: CheckBox) {
+    private fun initFragment(value: NoteEntity) {
+        var heart = if (value.favourite!!) R.drawable.heart else R.drawable.heart_disabled
+
+        favourite.setImageResource(heart)
+        remembered.isChecked = value.remembered!!
+    }
+
+    private fun rememberListener(value: NoteEntity) {
         rememberChange = !rememberChange
         value.remembered = !value.remembered!!
 
+        initFragment(value)
         noteListViewModel.update(value)
         if (rememberChange) {
             eventSessionHandler.addEvent(value.id, EventType.REMEMBER, rememberChange)
@@ -79,11 +84,11 @@ class FlashCard(private var eventSessionHandler: EventSessionService) : Fragment
 
     }
 
-    private fun favouriteListener(value: NoteEntity, favourite: ImageButton) {
+    private fun favouriteListener(value: NoteEntity) {
         favouriteChange = !favouriteChange
-        processImage(favouriteChange, favourite)
-
         value.favourite = !value.favourite!!
+
+        initFragment(value)
         noteListViewModel.update(value)
 
         if (favouriteChange) {
@@ -92,14 +97,6 @@ class FlashCard(private var eventSessionHandler: EventSessionService) : Fragment
             eventSessionHandler.deleteEvent(value.id, EventType.FAVOURITE, favouriteChange)
         }
 
-    }
-
-    private fun processImage(value: Boolean?, favourite: ImageButton) {
-        var heart = R.drawable.heart_disabled
-        if (!value?.not()!!) {
-            heart = R.drawable.heart
-        }
-        favourite.setImageResource(heart)
     }
 
     companion object {
