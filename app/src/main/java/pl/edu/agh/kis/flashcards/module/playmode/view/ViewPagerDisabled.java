@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.Objects;
 
+@Deprecated
 public class ViewPagerDisabled extends ViewPager {
 
     private boolean lockPage;

@@ -9,7 +9,8 @@
 <!--    prevent error on rotating back (for now fix)-->
 
 
-    <pl.edu.agh.kis.flashcards.module.playmode.view.ViewPagerDisabled
+    <androidx.viewpager2.widget.ViewPager2
+        android:layoutDirection="ltr"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/pager" />

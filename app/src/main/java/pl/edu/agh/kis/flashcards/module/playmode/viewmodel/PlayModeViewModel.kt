@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import pl.edu.agh.kis.flashcards.database.NoteListDataBase
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
+import pl.edu.agh.kis.flashcards.database.services.NoteListRepository
 import pl.edu.agh.kis.flashcards.database.services.NoteRepository
 import pl.edu.agh.kis.flashcards.database.services.SessionRepository
 
@@ -16,6 +17,7 @@ import pl.edu.agh.kis.flashcards.database.services.SessionRepository
 class PlayModeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val noteRepository: NoteRepository
+    private val noteListRepository: NoteListRepository
     private val sessionRepository: SessionRepository
 
     lateinit var allNoteLists: MutableLiveData<List<NoteListEntity>>
@@ -23,6 +25,7 @@ class PlayModeViewModel(application: Application) : AndroidViewModel(application
     init {
         val database = NoteListDataBase.getDatabase(application)
         noteRepository = NoteRepository(database.noteDao())
+        noteListRepository = NoteListRepository(database.noteListDAO())
         sessionRepository = SessionRepository(database.sessionDao())
     }
 

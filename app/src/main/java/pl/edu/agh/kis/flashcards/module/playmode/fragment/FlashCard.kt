@@ -9,12 +9,11 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
-import pl.edu.agh.kis.flashcards.module.main.fragment.ViewModelFactory
-import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteViewModel
 import pl.edu.agh.kis.flashcards.module.playmode.service.EventSessionService
 import pl.edu.agh.kis.flashcards.module.playmode.service.EventType
 import pl.edu.agh.kis.flashcards.module.playmode.viewmodel.PlayModeViewModel
