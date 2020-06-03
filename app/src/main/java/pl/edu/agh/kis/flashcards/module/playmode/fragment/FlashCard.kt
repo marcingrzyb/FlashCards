@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
+import pl.edu.agh.kis.flashcards.module.playmode.activity.PlayModeViewModelFactory
 import pl.edu.agh.kis.flashcards.module.playmode.service.EventSessionService
 import pl.edu.agh.kis.flashcards.module.playmode.service.EventType
 import pl.edu.agh.kis.flashcards.module.playmode.viewmodel.PlayModeViewModel
@@ -112,20 +113,4 @@ class FlashCard(private var eventSessionHandler: EventSessionService) : Fragment
 
 }
 
-object PlayModeViewModelFactory : ViewModelProvider.Factory {
-    lateinit var app: Application
-    var id by Delegates.notNull<Int>()
-    fun setApplication(application: Application) {
-        app = application
-    }
 
-    fun setIdF(id_: Int) {
-        id = id_
-    }
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return PlayModeViewModel(
-            app
-        ) as T
-    }
-}

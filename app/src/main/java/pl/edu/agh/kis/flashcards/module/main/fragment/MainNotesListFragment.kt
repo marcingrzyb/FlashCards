@@ -173,7 +173,8 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
                     OperationType.CREATE -> {
                         noteListViewModel.insert(
                             NoteListEntity(
-                                null, editText1.text.toString(),
+                                null,
+                                editText1.text.toString(),
                                 baseLangSpinner.selectedItem.toString(),
                                 targetLangSpinner.selectedItem.toString()
                             )

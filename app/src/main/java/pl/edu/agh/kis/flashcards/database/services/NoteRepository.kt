@@ -4,18 +4,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import pl.edu.agh.kis.flashcards.database.dao.NoteDAO
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
+import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
 
 class NoteRepository(private val noteDAO: NoteDAO) {
+
+    val allNoteLists:LiveData<List<NoteEntity>> = noteDAO.getAll()
 
     fun getAllById(id:Int): LiveData<List<NoteEntity>> {
         return noteDAO.loadAllById(id)
     }
-
-    fun getListById(id:Int): MutableLiveData<List<NoteEntity>> {
-        return noteDAO.loadListById(id)
+    fun loadList(): List<NoteEntity> {
+        return noteDAO.loadList()
     }
+
+    fun loadIds(id:Int): LiveData<List<Int>> {
+        return noteDAO.loadIds(id)
+    }
+
     fun addNote(noteEntity: NoteEntity){
         noteDAO.insert(noteEntity)
+    }
+    fun get(id:Int): NoteEntity{
+        return noteDAO.get(id)
     }
     fun deleteAllById(id:Int){
         noteDAO.deleteAllById(id)

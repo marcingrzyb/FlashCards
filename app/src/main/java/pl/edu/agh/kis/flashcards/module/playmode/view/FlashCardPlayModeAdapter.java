@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -35,8 +34,8 @@ public class FlashCardPlayModeAdapter extends FragmentStateAdapter {
         if (position != notes.size()) {
             fragment = new FlashCard(eventSessionHandler);
             Bundle bundle = new Bundle();
-            NoteEntity noteEntity = notes.get(position);
-            bundle.putSerializable("note", noteEntity);
+            NoteEntity note = notes.get(position);
+            bundle.putSerializable("note", note);
             fragment.setArguments(bundle);
         } else {
             sessionSummary = new SessionSummary(eventSessionHandler);
@@ -51,4 +50,5 @@ public class FlashCardPlayModeAdapter extends FragmentStateAdapter {
                 ? 0
                 : notes.size() + 1;
     }
+
 }

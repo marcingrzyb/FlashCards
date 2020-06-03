@@ -1,9 +1,7 @@
 package pl.edu.agh.kis.flashcards.module.playmode.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pl.edu.agh.kis.flashcards.database.NoteListDataBase
@@ -20,18 +18,20 @@ class PlayModeViewModel(application: Application) : AndroidViewModel(application
     private val noteListRepository: NoteListRepository
     private val sessionRepository: SessionRepository
 
-    lateinit var allNoteLists: MutableLiveData<List<NoteListEntity>>
+    lateinit var allNoteLists: List<NoteEntity>
+
 
     init {
         val database = NoteListDataBase.getDatabase(application)
         noteRepository = NoteRepository(database.noteDao())
         noteListRepository = NoteListRepository(database.noteListDAO())
         sessionRepository = SessionRepository(database.sessionDao())
+
     }
 
     fun get(id: Int) =
         viewModelScope.launch(Dispatchers.IO) {
-            noteRepository.getAllById(id)
+            noteRepository.get(id)
         }
 
     fun update(noteEntity: NoteEntity) =

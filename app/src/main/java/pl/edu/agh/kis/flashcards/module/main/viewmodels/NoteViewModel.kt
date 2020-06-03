@@ -32,10 +32,6 @@ class NoteViewModel(application: Application, id: Int) : AndroidViewModel(applic
         repository.addNote(noteEntity)
     }
 
-    fun deleteAllById(id: Int) = viewModelScope.launch(IO) {
-        repository.deleteAllById(id)
-    }
-
     fun delete(noteEntity: NoteEntity) = viewModelScope.launch(IO) {
         repository.delete(noteEntity)
     }

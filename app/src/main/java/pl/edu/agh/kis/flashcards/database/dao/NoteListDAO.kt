@@ -13,9 +13,6 @@ abstract class NoteListDAO {
     @Query("SELECT * FROM NoteListEntity")
     abstract fun getAll():LiveData<List<NoteListEntity>>
 
-    @Query("SELECT * FROM NoteListEntity")
-    abstract fun getAllMutable(): MutableLiveData<List<NoteListEntity>>
-
     @Transaction
     @Query("SELECT * FROM NoteListEntity")
     abstract suspend fun getAllWNotes(): List<NoteListWNotes>
