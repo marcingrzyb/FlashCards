@@ -23,6 +23,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.main.activity.NoteListDetailsActivity" />
+        <receiver android:name=".broadcastReceivers.LangChangedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED">
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
