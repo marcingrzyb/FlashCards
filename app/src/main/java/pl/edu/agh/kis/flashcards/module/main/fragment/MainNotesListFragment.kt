@@ -50,7 +50,6 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
     private lateinit var adapter: NoteListAdapterRecycler
     private var details = fragmentManager?.findFragmentById(R.id.note_list) as? NotesSetFragment
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

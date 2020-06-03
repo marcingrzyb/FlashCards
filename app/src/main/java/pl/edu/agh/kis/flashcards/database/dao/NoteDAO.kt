@@ -11,8 +11,8 @@ interface NoteDAO {
     @Query("SELECT * FROM NoteEntity WHERE listId LIKE :listId_")
     fun loadAllById(listId_: Int): LiveData<List<NoteEntity>>
 
-    @Query("SELECT * FROM NoteEntity")
-    fun loadList(): List<NoteEntity>
+    @Query("SELECT * FROM NoteEntity WHERE listId LIKE :id")
+    fun loadList(id: Int): List<NoteEntity>
 
     @Query("SELECT id FROM NoteEntity WHERE listId LIKE :listId_")
     fun loadIds(listId_: Int): LiveData<List<Int>>

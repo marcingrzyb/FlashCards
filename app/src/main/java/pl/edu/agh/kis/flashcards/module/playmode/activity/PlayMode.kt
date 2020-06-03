@@ -32,6 +32,7 @@ class PlayMode() : AppCompatActivity() {
     }
 
     @SuppressLint("StaticFieldLeak")
+    //TODO: fix displayed Notes
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learn)
@@ -59,30 +60,28 @@ class PlayMode() : AppCompatActivity() {
                     )
                 pager!!.adapter = flashCardCollectionAdapter
 
-                var doppelgangerPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageSelected(position: Int) {
-                        if (position == allById.size) {
-                            flashCardCollectionAdapter!!.processData()
-                            pager!!.setUserInputEnabled(false);
-                        }
-                    }
-                }
-
+                var doppelgangerPageChangeCallback = onPageChangeCallback(allById)
                 pager!!.registerOnPageChangeCallback(doppelgangerPageChangeCallback)
-
             }
 
             override fun doInBackground(vararg params: Any?) {
-                allById = repository.loadList()
+                allById = repository.loadList(intExtra)
             }
 
         }.execute()
 
-
-
-
     }
 
+    private fun AsyncTask<Any?, Any?, Any?>.onPageChangeCallback(allById: List<NoteEntity>): ViewPager2.OnPageChangeCallback {
+        return object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                if (position == allById.size) {
+                    flashCardCollectionAdapter!!.processData()
+                    pager!!.setUserInputEnabled(false);
+                }
+            }
+        }
+    }
 
 }
 

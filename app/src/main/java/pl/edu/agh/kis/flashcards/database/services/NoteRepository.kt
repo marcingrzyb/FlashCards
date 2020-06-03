@@ -8,31 +8,22 @@ import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
 
 class NoteRepository(private val noteDAO: NoteDAO) {
 
-    val allNoteLists:LiveData<List<NoteEntity>> = noteDAO.getAll()
-
     fun getAllById(id:Int): LiveData<List<NoteEntity>> {
         return noteDAO.loadAllById(id)
     }
-    fun loadList(): List<NoteEntity> {
-        return noteDAO.loadList()
-    }
 
-    fun loadIds(id:Int): LiveData<List<Int>> {
-        return noteDAO.loadIds(id)
+    fun loadList(id:Int): List<NoteEntity> {
+        return noteDAO.loadList(id)
     }
 
     fun addNote(noteEntity: NoteEntity){
         noteDAO.insert(noteEntity)
     }
-    fun get(id:Int): NoteEntity{
-        return noteDAO.get(id)
-    }
-    fun deleteAllById(id:Int){
-        noteDAO.deleteAllById(id)
-    }
+
     fun delete(noteEntity: NoteEntity){
         noteDAO.delete(noteEntity)
     }
+
     fun update(noteEntity: NoteEntity){
         noteDAO.update(noteEntity)
     }

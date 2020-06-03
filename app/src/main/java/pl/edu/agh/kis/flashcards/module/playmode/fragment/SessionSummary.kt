@@ -13,7 +13,6 @@ import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.module.playmode.service.EventModel
 import pl.edu.agh.kis.flashcards.module.playmode.service.EventSessionService
 
-//TODO: updateEntity
 class SessionSummary(private var eventSessionHandler: EventSessionService) : Fragment() {
 
     private var time: TextView? = null
