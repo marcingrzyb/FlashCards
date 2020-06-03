@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/translationActivity"
-        android:title="Translation">
+    <item android:id="@+id/toggleDarkMode"
+        android:icon="@drawable/ic_brightness"
+        android:title="Dark mode"
+        app:showAsAction="always">
     </item>
+
 
 </menu>
