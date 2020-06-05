@@ -2,10 +2,10 @@ package pl.edu.agh.kis.flashcards.module.main.activity
 
 import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import pl.edu.agh.kis.flashcards.module.main.fragment.NotesSetFragment
 
-class NoteListDetailsActivity : FragmentActivity() {
+class NoteListDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

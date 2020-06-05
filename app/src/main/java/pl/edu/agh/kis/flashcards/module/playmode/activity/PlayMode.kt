@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import androidx.viewpager2.widget.ViewPager2
 import pl.edu.agh.kis.flashcards.R
-import kotlinx.coroutines.launch
 import pl.edu.agh.kis.flashcards.database.NoteListDataBase
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
 import pl.edu.agh.kis.flashcards.database.services.NoteRepository
@@ -32,7 +31,6 @@ class PlayMode() : AppCompatActivity() {
     }
 
     @SuppressLint("StaticFieldLeak")
-    //TODO: fix displayed Notes
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learn)
@@ -75,7 +73,7 @@ class PlayMode() : AppCompatActivity() {
 
     }
 
-    private fun AsyncTask<Any?, Any?, Any?>.onPageChangeCallback(allById: List<NoteEntity>): ViewPager2.OnPageChangeCallback {
+    private fun onPageChangeCallback(allById: List<NoteEntity>): ViewPager2.OnPageChangeCallback {
         return object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 if (position == allById.size) {

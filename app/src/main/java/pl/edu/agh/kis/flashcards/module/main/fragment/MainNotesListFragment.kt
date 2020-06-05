@@ -1,5 +1,6 @@
 package pl.edu.agh.kis.flashcards.module.main.fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Intent
@@ -26,10 +27,10 @@ import kotlinx.android.synthetic.main.fragment_main_notes_list.*
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entity.NoteListEntity
 import pl.edu.agh.kis.flashcards.module.main.activity.NoteListDetailsActivity
+import pl.edu.agh.kis.flashcards.module.main.fragment.operation.OperationType
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListAdapterRecycler
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListHolder
 import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteListViewModel
-import pl.edu.agh.kis.flashcards.module.main.fragment.operation.OperationType
 import java.util.Objects.nonNull
 
 
@@ -108,15 +109,6 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
 
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MainNotesListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             MainNotesListFragment().apply {

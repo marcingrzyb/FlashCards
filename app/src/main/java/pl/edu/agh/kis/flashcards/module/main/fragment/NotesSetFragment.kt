@@ -20,14 +20,14 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_note_dialog.*
 import kotlinx.android.synthetic.main.fragment_notes_list.*
-import pl.edu.agh.kis.flashcards.module.playmode.activity.PlayMode
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.api.TranslatorController
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
+import pl.edu.agh.kis.flashcards.module.main.fragment.operation.OperationType
 import pl.edu.agh.kis.flashcards.module.main.view.NoteAdapter
 import pl.edu.agh.kis.flashcards.module.main.view.NoteHolder
 import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteViewModel
-import pl.edu.agh.kis.flashcards.module.main.fragment.operation.OperationType
+import pl.edu.agh.kis.flashcards.module.playmode.activity.PlayMode
 import kotlin.properties.Delegates
 
 private lateinit var noteViewModel: NoteViewModel
@@ -97,7 +97,7 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
     fun playFlashCards(view: View) {
         val intent = Intent(activity, PlayMode::class.java)
         val b = Bundle()
-        b.putInt("id", shownIndex) //Your id
+        b.putInt("id", shownIndex)
         b.putString("sourceLang", sourceLang)
         b.putString("targetLang", targetLang)
         intent.putExtras(b)
