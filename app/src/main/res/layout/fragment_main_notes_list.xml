@@ -18,7 +18,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/NewListButton"
-        app:icon="@drawable/ic_plus_foreground" />
+        app:icon="@drawable/plus_foreground" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/MainNotesRecyclerView"
