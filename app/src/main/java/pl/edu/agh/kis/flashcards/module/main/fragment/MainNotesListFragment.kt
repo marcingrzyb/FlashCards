@@ -1,6 +1,5 @@
 package pl.edu.agh.kis.flashcards.module.main.fragment
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Intent
@@ -30,9 +29,9 @@ import pl.edu.agh.kis.flashcards.module.main.activity.NoteListDetailsActivity
 import pl.edu.agh.kis.flashcards.module.main.fragment.operation.OperationType
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListAdapterRecycler
 import pl.edu.agh.kis.flashcards.module.main.view.NoteListHolder
+import pl.edu.agh.kis.flashcards.module.main.view.SpinnerCustomAdapter
 import pl.edu.agh.kis.flashcards.module.main.viewmodels.NoteListViewModel
 import java.util.Objects.nonNull
-
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -40,6 +39,13 @@ private const val ARG_PARAM2 = "param2"
 private lateinit var noteListViewModel: NoteListViewModel
 
 class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListener {
+
+    private val IMAGES_MAP = mapOf(
+        "en" to R.drawable.flag_uk,
+        "pl" to R.drawable.flag_pl,
+        "de" to R.drawable.flag_ge,
+        "rus" to R.drawable.flag_ru
+    )
 
     private val TAG: String = "MAIN_NOTES_LIST_FR"
 
@@ -143,74 +149,45 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
         val dialog = builder.create()
         dialog.show()
 
-        val arrayAdapter = ArrayAdapter.createFromResource(
+        val arrayAdapter = SpinnerCustomAdapter(
             activity!!,
-            R.array.languages,
-            android.R.layout.simple_spinner_item
+            R.layout.custom_spinner_item,
+            IMAGES_MAP
         ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapter.setDropDownViewResource(R.layout.custom_spinner_item)
             dialog.baseLangSpinner.adapter = adapter
             dialog.targetLangSpinner.adapter = adapter
         }
 
         with(dialog) {
-            if (operationType == OperationType.UPDATE) {
-                fillCurrentSetValues(dialog, arrayAdapter, noteSet!!)
-                editText1.setText(noteSet.listName)
-            }
-            val langs=resources.getStringArray(R.array.languages)
-            if(langs.contains<String>(Resources.getSystem().getConfiguration().locales[0].language)) {
+            val langs = resources.getStringArray(R.array.languages)
+            if (langs.contains<String>(Resources.getSystem().getConfiguration().locales[0].language)) {
                 baseLangSpinner.setSelection(
                     langs.indexOf(
                         Resources.getSystem().getConfiguration().locales[0].language
                     )
                 )
-            }else{
+            } else {
                 baseLangSpinner.setSelection(
                     langs.indexOf(
                         "en"
                     )
                 )
             }
+            if (operationType == OperationType.UPDATE) {
+                fillCurrentSetValues(dialog, arrayAdapter, noteSet!!)
+                listName.setText(noteSet.listName)
+            }
 
             cancel_button.setOnClickListener { dialog.dismiss() }
             confirm_button.isEnabled = operationType != OperationType.CREATE
             confirm_button.setOnClickListener {
-                when (operationType) {
-                    OperationType.CREATE -> {
-                        noteListViewModel.insert(
-                            NoteListEntity(
-                                null,
-                                editText1.text.toString(),
-                                baseLangSpinner.selectedItem.toString(),
-                                targetLangSpinner.selectedItem.toString()
-                            )
-                        )
-                    }
-
-                    OperationType.UPDATE -> {
-                        updateSetInfo(noteSet!!, baseLangSpinner, targetLangSpinner, editText1)
-                    }
-                }
-                dismiss()
+                confirmButtonOnClickListener(
+                    operationType,
+                    noteSet
+                )
             }
-            editText1.addTextChangedListener(object : TextWatcher {
-
-                override fun afterTextChanged(s: Editable) {}
-
-                override fun beforeTextChanged(
-                    s: CharSequence, start: Int,
-                    count: Int, after: Int
-                ) {
-                }
-
-                override fun onTextChanged(
-                    s: CharSequence, start: Int,
-                    before: Int, count: Int
-                ) {
-                    dialog.confirm_button.isEnabled = s.trim().isNotEmpty()
-                }
-            })
+            listName.addTextChangedListener(listNameListener(dialog))
         }
     }
 
@@ -224,25 +201,68 @@ class MainNotesListFragment : Fragment(), NoteListAdapterRecycler.OnNoteSetListe
         operationDialog(OperationType.UPDATE, noteSet)
     }
 
+    private fun AlertDialog.confirmButtonOnClickListener(
+        operationType: OperationType,
+        noteSet: NoteListEntity?
+    ) {
+        when (operationType) {
+            OperationType.CREATE -> {
+                noteListViewModel.insert(
+                    NoteListEntity(
+                        null,
+                        listName.text.toString(),
+                        IMAGES_MAP.keys.toTypedArray()[baseLangSpinner.selectedItemPosition],
+                        IMAGES_MAP.keys.toTypedArray()[targetLangSpinner.selectedItemPosition]
+                    )
+                )
+            }
+
+            OperationType.UPDATE -> {
+                updateSetInfo(noteSet!!, baseLangSpinner, targetLangSpinner, listName)
+            }
+        }
+        dismiss()
+    }
+
+    private fun listNameListener(dialog: AlertDialog): TextWatcher {
+        return object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                dialog.confirm_button.isEnabled = s.trim().isNotEmpty()
+            }
+        }
+    }
+
     private fun updateSetInfo(
         noteSet: NoteListEntity,
         baseLangSpinner: Spinner,
         targetLangSpinner: Spinner,
         editText1: EditText
     ) {
-        noteSet.baseLanguage = baseLangSpinner.selectedItem.toString()
-        noteSet.targetLanguage = targetLangSpinner.selectedItem.toString()
+        noteSet.baseLanguage = IMAGES_MAP.keys.toTypedArray()[baseLangSpinner.selectedItemId.toInt()]
+        noteSet.targetLanguage = IMAGES_MAP.keys.toTypedArray()[targetLangSpinner.selectedItemId.toInt()]
         noteSet.listName = editText1.text.toString()
         noteListViewModel.update(noteSet)
     }
 
     private fun fillCurrentSetValues(
         dialog: AlertDialog,
-        adapter: ArrayAdapter<CharSequence>,
+        adapter: SpinnerCustomAdapter,
         noteSet: NoteListEntity
     ) {
-        dialog.baseLangSpinner.setSelection(adapter.getPosition(noteSet.baseLanguage))
-        dialog.targetLangSpinner.setSelection(adapter.getPosition(noteSet.targetLanguage))
+        dialog.baseLangSpinner.setSelection(adapter.getPosition(noteSet.baseLanguage), true)
+        dialog.targetLangSpinner.setSelection(adapter.getPosition(noteSet.targetLanguage), true)
     }
 
     private fun showDetails(index: Int) {
