@@ -1,6 +1,7 @@
 package pl.edu.agh.kis.flashcards.module.main.view
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +31,9 @@ class NoteAdapter internal constructor(
 
     fun setList(list_: List<NoteEntity>) {
         this.noteEnitites = list_
+        noteEnitites = noteEnitites.sortedWith(Comparator { lhs, rhs ->
+            if (lhs.favourite!! && !rhs.favourite!!) -1 else if (lhs.favourite!! == rhs.favourite!!) 0 else 1
+        })
         notifyDataSetChanged()
     }
 

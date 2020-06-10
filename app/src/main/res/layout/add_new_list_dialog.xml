@@ -25,20 +25,19 @@
 
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:paddingEnd="8dp"
             android:text="@string/base_lng"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/baseLangSpinner"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
             android:id="@+id/baseLangSpinner"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="130dp"
             android:layout_marginTop="8dp"
@@ -53,6 +52,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="48dp"
             android:paddingEnd="8dp"
             android:text="@string/target_lng"
@@ -64,7 +64,7 @@
 
         <Spinner
             android:id="@+id/targetLangSpinner"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="130dp"
             android:layout_marginTop="48dp"

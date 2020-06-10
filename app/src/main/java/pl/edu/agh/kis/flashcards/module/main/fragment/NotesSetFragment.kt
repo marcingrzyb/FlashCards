@@ -148,8 +148,8 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
                                 shownIndex,
                                 word.text.toString(),
                                 translatedWord.text.toString(),
-                                false,
-                                false
+                                favourite = false,
+                                remembered = false
                             )
                         )
                     }
