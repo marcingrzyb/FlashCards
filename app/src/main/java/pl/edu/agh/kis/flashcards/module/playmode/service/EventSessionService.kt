@@ -22,7 +22,6 @@ class EventSessionService(count: Int?) {
         eventMap!!.remove(Event(id, event))
     }
 
-    //TODO: better solution
     fun processData(): EventModel? {
         val remembered = eventMap!!.entries
             .stream()

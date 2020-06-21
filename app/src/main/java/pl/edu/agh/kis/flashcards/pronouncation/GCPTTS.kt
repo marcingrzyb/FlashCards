@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.feature
+package pl.edu.agh.kis.flashcards.pronouncation
 
 import android.media.MediaPlayer
 import android.util.Log

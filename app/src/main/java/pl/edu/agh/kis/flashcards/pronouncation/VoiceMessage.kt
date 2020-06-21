@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.feature
+package pl.edu.agh.kis.flashcards.pronouncation
 
 import org.json.JSONException
 import org.json.JSONObject
@@ -17,19 +17,16 @@ class VoiceMessage private constructor() {
             return this
         }
 
-        @Deprecated("")
         fun add(input: Input): Builder {
             mVoiceMessage.mVoiceParameters.add(input)
             return this
         }
 
-        @Deprecated("")
         fun add(GCPVoice: GCPVoice): Builder {
             mVoiceMessage.mVoiceParameters.add(GCPVoice)
             return this
         }
 
-        @Deprecated("")
         fun add(audioConfig: AudioConfig): Builder {
             mVoiceMessage.mVoiceParameters.add(audioConfig)
             return this

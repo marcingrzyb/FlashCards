@@ -40,8 +40,8 @@ public class SpinnerCustomAdapter extends ArrayAdapter<CharSequence> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater inflter = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = inflter.inflate(R.layout.custom_spinner_item, null);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View row = inflater.inflate(R.layout.custom_spinner_item, null);
         ImageView flag = row.findViewById(R.id.flag);
         if (position < 4) {
             flag.setImageResource((Integer) images.values().toArray()[position]);

@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.feature
+package pl.edu.agh.kis.flashcards.pronouncation
 
 enum class ESSMLlVoiceGender {
     SSML_VOICE_GENDER_UNSPECIFIED, MALE, FEMALE, NEUTRAL, NONE;

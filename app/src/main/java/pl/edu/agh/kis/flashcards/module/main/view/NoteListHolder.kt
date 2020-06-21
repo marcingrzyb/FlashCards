@@ -1,6 +1,5 @@
 package pl.edu.agh.kis.flashcards.module.main.view
 
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView

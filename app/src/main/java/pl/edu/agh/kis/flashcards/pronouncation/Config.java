@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.feature;
+package pl.edu.agh.kis.flashcards.pronouncation;
 
 class Config {
     static final String API_KEY = "AIzaSyC9FZVdS8hhF7M2ehnlF93QZV9SjzwfBcw";

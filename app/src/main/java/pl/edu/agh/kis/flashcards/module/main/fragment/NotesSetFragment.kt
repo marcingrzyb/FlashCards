@@ -1,5 +1,6 @@
 package pl.edu.agh.kis.flashcards.module.main.fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Intent
@@ -108,6 +109,7 @@ class NotesSetFragment : Fragment(), NoteAdapter.OnNoteSetListener {
         addNote(operationType, null)
     }
 
+    @SuppressLint("InflateParams")
     private fun addNote(operationType: OperationType, noteEntity: NoteEntity?) {
         val mDialogView =
             LayoutInflater.from(activity!!).inflate(R.layout.add_note_dialog, null)

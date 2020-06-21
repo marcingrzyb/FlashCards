@@ -11,9 +11,9 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import pl.edu.agh.kis.flashcards.R
 import pl.edu.agh.kis.flashcards.database.entity.NoteEntity
-import pl.edu.agh.kis.flashcards.feature.AudioConfig
-import pl.edu.agh.kis.flashcards.feature.GCPTTSAdapter
-import pl.edu.agh.kis.flashcards.feature.GCPVoice
+import pl.edu.agh.kis.flashcards.pronouncation.AudioConfig
+import pl.edu.agh.kis.flashcards.pronouncation.GCPTTSAdapter
+import pl.edu.agh.kis.flashcards.pronouncation.GCPVoice
 import pl.edu.agh.kis.flashcards.module.playmode.activity.PlayModeViewModelFactory
 import pl.edu.agh.kis.flashcards.module.playmode.service.EventSessionService
 import pl.edu.agh.kis.flashcards.module.playmode.service.EventType
@@ -68,7 +68,7 @@ class FlashCard(private var eventSessionHandler: EventSessionService) : Fragment
         speakTranslate = inflate.findViewById(R.id.speakButton1)
 
         txtView.setText(value.word)
-        hiddenContent.setText("click")
+        hiddenContent.text = "click"
         initFragment(value)
 
         hiddenContent.setOnClickListener {
@@ -132,7 +132,6 @@ class FlashCard(private var eventSessionHandler: EventSessionService) : Fragment
     }
 
     private fun findLanguage(lang: String): String {
-        //todo: maybe smarter solution this is temp one
         when (lang.toLowerCase()) {
             "en" -> return "en-US"
             "pl" -> return "pl-PL"

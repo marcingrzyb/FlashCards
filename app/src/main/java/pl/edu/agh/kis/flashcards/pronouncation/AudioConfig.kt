@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.flashcards.feature
+package pl.edu.agh.kis.flashcards.pronouncation
 
 import org.json.JSONException
 import org.json.JSONObject

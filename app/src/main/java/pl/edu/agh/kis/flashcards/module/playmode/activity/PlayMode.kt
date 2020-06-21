@@ -2,6 +2,7 @@ package pl.edu.agh.kis.flashcards.module.playmode.activity
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.pm.ActivityInfo
 import android.os.AsyncTask
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -30,13 +31,14 @@ class PlayMode() : AppCompatActivity() {
         repository = NoteRepository(noteDao)
     }
 
-    @SuppressLint("StaticFieldLeak")
+    @SuppressLint("StaticFieldLeak", "SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_learn)
-        var intExtra = getIntent().getIntExtra("id", 0)
-        var sourceLang = intent.getStringExtra("sourceLang")
-        var targetLang = intent.getStringExtra("targetLang")
+        val intExtra = getIntent().getIntExtra("id", 0)
+        val sourceLang = intent.getStringExtra("sourceLang")
+        val targetLang = intent.getStringExtra("targetLang")
         PlayModeViewModelFactory.setApplication(application)
         noteListViewModel = ViewModelProvider(
             this,
@@ -48,7 +50,7 @@ class PlayMode() : AppCompatActivity() {
             var allById = Collections.emptyList<NoteEntity>()
 
             override fun onPostExecute(result: Any?) {
-                var eventSessionHandler = EventSessionService(allById.size)
+                val eventSessionHandler = EventSessionService(allById.size)
                 pager = findViewById(R.id.pager)
                 flashCardCollectionAdapter =
                     FlashCardPlayModeAdapter(
@@ -61,7 +63,7 @@ class PlayMode() : AppCompatActivity() {
                 flashCardCollectionAdapter!!.setTargetLang(targetLang)
                 pager!!.adapter = flashCardCollectionAdapter
 
-                var doppelgangerPageChangeCallback = onPageChangeCallback(allById)
+                val doppelgangerPageChangeCallback = onPageChangeCallback(allById)
                 pager!!.registerOnPageChangeCallback(doppelgangerPageChangeCallback)
             }
 
@@ -91,10 +93,6 @@ object PlayModeViewModelFactory : ViewModelProvider.Factory {
     var id by Delegates.notNull<Int>()
     fun setApplication(application: Application) {
         app = application
-    }
-
-    fun setIdF(id_: Int) {
-        id = id_
     }
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

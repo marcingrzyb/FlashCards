@@ -13,8 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TypeInTranslation"></activity>
-        <activity android:name="pl.edu.agh.kis.flashcards.module.playmode.activity.PlayMode" />
+        <activity android:name="pl.edu.agh.kis.flashcards.module.playmode.activity.PlayMode"/>
         <activity android:name=".module.main.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
